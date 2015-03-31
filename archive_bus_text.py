@@ -50,9 +50,6 @@ def storeText(inData,filename):
 
     resultFile = open(filename,'a+w')
     wr = csv.writer(resultFile)
-    # add headers
-    row = ['timestamp','lineref','linename','vehicleref','destref','destname','latitude','longitude','dist_along_route','dist_from_call','journey_ref','stop_pt_ref']
-    wr.writerow(row)
 
     # must try-except each variable in order to prevent information loss
     for i in jsonData["Siri"]["ServiceDelivery"]["VehicleMonitoringDelivery"]:
