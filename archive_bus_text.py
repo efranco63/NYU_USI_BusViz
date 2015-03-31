@@ -134,7 +134,7 @@ def main(bus_key):
            csv_filename = "bus-"+str(today)+".csv"
         data = WebAccess()
         storeText(data,csv_filename)
-        timeDelay(5)
+        timeDelay(30)
 
 if __name__ == '__main__':
     key = "4723b4b0-3e16-4a17-a24b-48d79ea53dc0"
