@@ -102,9 +102,14 @@ def storeText(inData,filename):
                 stop_pt_ref = j['MonitoredVehicleJourney']['MonitoredCall']['StopPointRef']
             except:
                 stop_pt_ref = ""
-                
-            row = [timestamp,lineref,linename,vehicleref,destref,destname,latitude,longitude,dist_along_route,dist_from_call,journey_ref,stop_pt_ref]
-            wr.writerow(row)
+        
+            try:        
+                row = [timestamp,lineref,linename,vehicleref,destref,destname,latitude,longitude,dist_along_route,dist_from_call,journey_ref,stop_pt_ref]
+                wr.writerow(row)
+                print '[INFO] successfully inserted bus %s at %s.' % (lineref,timestamp)
+            except:
+                print '[WARNING] Error when storing bus data, continue skipping. Error code - %s.' % (sys.exc_info()[0])
+                pass
 
 def timeDelay(sec):
     """
