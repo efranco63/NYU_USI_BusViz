@@ -5,7 +5,7 @@
 ## archive_bus_text.py
 ## fetch all bus data, simple plot and store it to text file
 ## MTA bus key = 4723b4b0-3e16-4a17-a24b-48d79ea53dc0
-## contact: drp354@nyu.edu
+## 
 ##
 ###############################################################################
 
@@ -46,26 +46,68 @@ def storeText(inData,filename):
     """
     store data to comma-delimited text file 
     """ 
-    jsonData = json.loads(inData)  
+    jsonData = json.loads(inData)
+
+    resultFile = open(filename,'a+w')
+    wr = csv.writer(resultFile)
+    # add headers
+    row = ['timestamp','lineref','linename','vehicleref','destref','destname','latitude','longitude','dist_along_route','dist_from_call','journey_ref','stop_pt_ref']
+    wr.writerow(row)
+
+    # must try-except each variable in order to prevent information loss
     for i in jsonData["Siri"]["ServiceDelivery"]["VehicleMonitoringDelivery"]:
         for j in i["VehicleActivity"]:
             try:
                 timestamp = j["RecordedAtTime"]
-                lineref = j["MonitoredVehicleJourney"]["LineRef"]
-                linename = j["MonitoredVehicleJourney"]["PublishedLineName"]
-                vehicleref = j["MonitoredVehicleJourney"]["VehicleRef"]
-                destref = j["MonitoredVehicleJourney"]["DestinationRef"]
-                destname = j["MonitoredVehicleJourney"]["DestinationName"]
-                latitude = j["MonitoredVehicleJourney"]["VehicleLocation"]["Latitude"]
-                longitude = j["MonitoredVehicleJourney"]["VehicleLocation"]["Longitude"]
-                row = [timestamp,lineref,linename,vehicleref,destref,destname,latitude,longitude]
-                resultFile = open(filename,'a+w')
-                wr = csv.writer(resultFile)
-                wr.writerow(row)
-                print '[INFO] successfully inserted bus %s at %s.' % (lineref,timestamp)
             except:
-                print '[WARNING] Error when storing bus data, continue skipping. Error code - %s.' % (sys.exc_info()[0])
-                pass
+                timestamp = ""
+            try:
+                lineref = j["MonitoredVehicleJourney"]["LineRef"]
+            except:
+                lineref = ""
+            try:
+                linename = j["MonitoredVehicleJourney"]["PublishedLineName"]
+            except:
+                linename = ""
+            try:
+                vehicleref = j["MonitoredVehicleJourney"]["VehicleRef"]
+            except:
+                vehicleref = ""
+            try:
+                destref = j["MonitoredVehicleJourney"]["DestinationRef"]
+            except:
+                destref = ""
+            try:
+                destname = j["MonitoredVehicleJourney"]["DestinationName"]
+            except:
+                destname = ""
+            try:
+                latitude = j["MonitoredVehicleJourney"]["VehicleLocation"]["Latitude"]
+            except:
+                latitude = ""
+            try:
+                longitude = j["MonitoredVehicleJourney"]["VehicleLocation"]["Longitude"]
+            except:
+                longitude = ""
+            try:
+                dist_along_route = j['MonitoredVehicleJourney']['MonitoredCall']['Extensions']['Distances']['CallDistanceAlongRoute']
+            except:
+                dist_along_route = ""
+            try:
+                dist_from_call = j['MonitoredVehicleJourney']['MonitoredCall']['Extensions']['Distances']['DistanceFromCall']
+            except:
+                dist_from_call = ""
+            try:
+                journey_ref = j['MonitoredVehicleJourney']['FramedVehicleJourneyRef']['DatedVehicleJourneyRef']
+            except:
+                journey_ref = ""
+            try:
+                stop_pt_ref = j['MonitoredVehicleJourney']['MonitoredCall']['StopPointRef']
+            except:
+                stop_pt_ref = ""
+                
+            row = [timestamp,lineref,linename,vehicleref,destref,destname,latitude,longitude,dist_along_route,dist_from_call,journey_ref,stop_pt_ref]
+            wr.writerow(row)
 
 def timeDelay(sec):
     """
