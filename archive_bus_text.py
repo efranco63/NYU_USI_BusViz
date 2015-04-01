@@ -119,6 +119,7 @@ def timeDelay(sec):
 
 def main(bus_key):
     #update on 
+    print '############ PROGRAM START ############'
     today = datetime.date.today()
     csv_filename = "bus-"+str(today)+".csv"
 
