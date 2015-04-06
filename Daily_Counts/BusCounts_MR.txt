@@ -1,0 +1,82 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1344\cocoasubrtf720
+{\fonttbl\f0\fswiss\fcharset0 Helvetica;\f1\froman\fcharset0 TimesNewRomanPSMT;}
+{\colortbl;\red255\green255\blue255;}
+\margl1440\margr1440\vieww14200\viewh10240\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\f0\fs24 \cf0 The MapReduce framework basically parallelizes computations across many machines in order to achieve processing on large amounts of data in reasonable time. There is plenty of literature out there if you want to learn more about this method. The following are two very good books that we are using for our big data class: \
+https://www.mmds.org  \
+lintel.github.io/MapReduceAlgorithms/index.html\
+\
+In this directory you will see a map file (mapper.py) and a reduce file (reducer.py). Essentially the mappers will be fed line-by-line of the input files and will output a certain set of information (in this case, a string which has the week, the date, the bus ID, and the number one, indicating that for that bus on that day of that week there is one count). The reducers will receive all this data which will be ordered by intermediate steps and aggregate it all, so that the output of the reducers should be a final string with the accumulated counts per bus, per day, per week, etc.\
+\
+In your account with CUSP (which you can log into via the terminal by typing:  ssh netid@shell.cusp.nyu.edu), you can create a folder to hold the mapper and reduce files (/home/netid/busvis for example). \
+\
+All the historical files for the MTA for August-October 2014 are available at {\field{\*\fldinst{HYPERLINK "http://web.mta.info/developers/MTA-Bus-Time-historical-data.html"}}{\fldrslt http://web.mta.info/developers/MTA-Bus-Time-historical-data.html}}.\
+\
+If you have access to the CUSP Hadoop cluster, you can reach it once you are in the CUSP shell by just typing \'91ssh cluster\'92 into the command line. This will prompt you for a password and you will then enter the cluster. The cluster has a file system called the \'91Hadoop Distributed File System\'92 (HDFS) where all the files that will be used as input need to be stored. \
+\
+In the HDFS, you will have your folder where you can store data /user/netid\
+You cannot navigate to this folder directly like you could your home folder in the CUSP directory because it is on HDFS, you can only send and receive data from it. What I mean is you can \'91cd\'92 into the HDFS from the command line. \
+\
+You will want to create a folder in your home directory called /home/netid/busvis/data where you can store the MTA .txt files (If you copy all 3 months it is approximately 70GB). \
+\
+First thing that needs to be done is MTA files need to be copied over to the HDFS. You can can copy over the data by entering the following command into your terminal (assuming you are somewhere in your home directory):\
+\
+\pard\pardeftab720
+
+\i \cf0 /usr/local/hadoop/bin/hadoop fs -copyFromLocal /home/cusp/netid/busvis/busdata /user/netid/busdata
+\i0 \
+\
+This will copy the folder containing the bus data from your home directory over to the HDFS.\
+\
+Now to run a Hadoop job that will read all those files you just copied over and process it using the map/reduce files you wrote, enter the following into the command line (assuming you are in the folder in your home directory where the map and reduce files are):\
+\
+
+\i /usr/local/hadoop/bin/hadoop jar /usr/local/hadoop/share/hadoop/tools/lib/hadoop-streaming-2.2.0.jar -D mapred.reduce.tasks=10 -files mapper.py,reducer.py -mapper mapper.py -reducer reducer.py -input /user/netid/busdata* -output /user/netid/output\
+\
+
+\i0 This command essentially is stating:
+\f1 \
+
+\f0 \
+CALL HADOOP PROGRAM: 
+\i /usr/local/hadoop/bin/hadoop\
+
+\i0 USE A STREAMING PROGRAM (SO WE WRITE PYTHON MAP/REDUCE FILES INSTEAD OF JAVA): 
+\i jar /usr/local/hadoop/share/hadoop/tools/lib/hadoop-streaming-2.2.0.jar
+\i0 \
+SPECIFY THE NUMBER OF REDUCERS (WILL MAKE PROCESSING QUICKER): -
+\i mapred.reduce.tasks=10\
+
+\i0 FILES TO USE: 
+\i -files mapper.py,reducer.py\
+
+\i0 THE MAPPER: 
+\i -mapper mapper.py
+\i0 \
+THE REDUCER: 
+\i -reducer reducer.py\
+
+\i0 THE INPUT FILES (THE * INDICATES EVERYTHING IN THE BUSDATA FOLDER): 
+\i -input /user/netid/busdata*\
+
+\i0 WHERE THE OUTPUT WILL GO: 
+\i -output /user/netid/output\
+\
+
+\i0 Note that the output is saved to the HDFS and because we used 10 reducers, there will be 10 files in that folder that have output. To get a final file we will merge them and then save them down to your CUSP home directory:\
+\
+
+\i /usr/local/hadoop/bin/hadoop fs -getmerge /user/netid/output /home/cusp/netid/busvis/output\
+\
+
+\i0 This will save a file called \'91output\'92 to your home directory in your 
+\i busvis
+\i0  folder and it will contain the results of all the reducers in one file. The output should look like the file \'91Date_Week_Counts\'92 in the repo.\
+\
+You can then process this data as you will with a text processor and extract the information you need to save a CSV like the one in the github directory titled \'91AugSepOct_BusCount.csv\'92\
+\
+You can then plot this and see how counts vary by day or week for the 3 month period of Aug-Oct 2014.
+\f1 \
+}
