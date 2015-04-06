@@ -37,10 +37,10 @@ def WebAccess():
     if (webUrl.getcode() == 200):
         data = webUrl.read()
         #print "Read data finished"
+        return data
     else:
-        sys.exit("[ERROR] Received an error from server, cannot retrieve results " + str(webUrl.getcode()))   
-    return data
-
+        print "[ERROR] Received an error from server, cannot retrieve results " + str(webUrl.getcode())   
+        return -1
        
 def storeText(inData,filename):
     """
@@ -136,7 +136,7 @@ def main(bus_key):
            today = datetime.date.today()
            csv_filename = "bus-"+str(today)+".csv"
         data = WebAccess()
-        if data:
+        if data != -1:
             storeText(data,csv_filename)
         timeDelay(30)
 
