@@ -2,11 +2,11 @@
 <html>
   <!-- HEADER START -->
   <head>
-    <script type="text/javascript"
-      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBKMxUK5yzz0XnMa1FLB2GDvbrdnaEY5vQ">
-    </script>
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBKMxUK5yzz0XnMa1FLB2GDvbrdnaEY5vQ"></script>
     <link href="bootstrap/css/bootstrapcyborg.min.css" rel="stylesheet">
+    <link href="bootstrap/css/bootstrap-datepicker3.css" rel="stylesheet">
     <link rel="stylesheet" href="main.css">  
+
   </head>
   <!-- HEADER ENDS -->
 
@@ -16,9 +16,8 @@
 
     <!-- NAVIGATION START-->
     <div id ="panelContent">
-      <div class="input-group">
-        <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></span>
-        <input type="text" class="form-control" placeholder="Location" aria-describedby="basic-addon1">
+      <div class="input-group date">
+        <input type="text" class="form-control"><span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
       </div>
 
     </div>
@@ -29,11 +28,11 @@
       <span class="light">BUSVIZ</span>
     </div>
 
-    <script type="text/javascript" src="map.js"> </script>
-    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script type="text/javascript" src="map.js"> </script>
     <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script src="bootstrap/js/bootstrap-datepicker.js" charset="UTF-8"></script>
+
 
   </body>
   <!-- BODY ENDS -->

@@ -4,8 +4,7 @@ html, body{
 	height: 100%;
 	width: 100%;
 	font-family: Lato;
-
-	font-size: 24px;
+	font-size : 24px;
 }
 
 #map-canvas { 

@@ -1,3 +1,9 @@
+$(document).ready(function() {
+  //calendar
+  $('.input-group.date').datepicker({
+  });
+});
+
 function initialize() {
   var mapOptions = {
     center: { lat: 40.725497, lng: -73.974016},
@@ -9,3 +15,6 @@ function initialize() {
 }
 
 google.maps.event.addDomListener(window, 'load', initialize);
+
+
+
