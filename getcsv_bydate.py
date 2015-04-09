@@ -5,8 +5,7 @@ try:
 except:
 	print 'could not connect to database'
 cur=conn.cursor()
-cur.execute("""select routeid,count(*) bus_count from bus_test where to_char(timestamp,'YYYY-MM-DD') ='%s' group by routeid;
-"""%(date))
+cur.execute("""SELECT COUNT(*)FROM(SELECT busid,COUNT(*) bus_count FROM bus_test WHERE to_char(TIMESTAMP,'YYYY-MM-DD') ='%s' GROUP BY busid) AS table1"""%(date))
 rows=cur.fetchall()
 with open('/home/busvis/%s.csv'%(date),'w') as myfile:
 	csv_out=csv.writer(myfile)
