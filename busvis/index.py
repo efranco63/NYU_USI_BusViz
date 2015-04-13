@@ -31,7 +31,7 @@ def index():
 	import psycopg2
 	#date=raw_input('enter date: (2014-08-01)\n').strip()
 	try:
-		conn=psycopg2.connect("dbname='bushistorical' user='postgres'")
+		conn=psycopg2.connect("dbname='bushistorical' user='postgres' host='busvis.cloudapp.net'")
 		cur=conn.cursor();
 		# cur.execute("""SELECT COUNT(*)FROM(SELECT busid,COUNT(*) bus_count FROM bus_test WHERE to_char(TIMESTAMP,'YYYY-MM-DD') ='%s' GROUP BY busid) AS table1"""%(date))
 		cur.execute("SELECT COUNT(DISTINCT busid) FROM bus_test")
