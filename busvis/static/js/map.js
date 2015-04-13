@@ -1,3 +1,4 @@
+
 $(document).ready(function() {
   //calendar
   $('.input-group.date').datepicker({

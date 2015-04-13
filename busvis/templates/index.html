@@ -11,6 +11,7 @@
 
     <script type="text/javascript" src="{{ url_for('static', filename='js/d3/d3.js') }}"></script>
 
+    <!-- bootstrap template Cyborg from http://bootswatch.com/cyborg/ -->
     <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap/css/bootstrapcyborg.min.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap/css/bootstrap-datepicker3.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">  
@@ -27,6 +28,10 @@
       <div class="input-group date">
         <input type="text" class="form-control"><span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
       </div>
+      <div class="panel panel-default">
+        <div class="panel-heading">Total bus count</div>
+        <div class="panel-body">{{ date }}: {{ buscount }}</div>
+      </div>
 
     </div>
     <!-- NAVIGATION END-->
@@ -40,7 +45,7 @@
     
     <script type="text/javascript" src="{{ url_for('static', filename='js/map.js') }}"> </script>
     <script src="{{ url_for('static', filename='bootstrap/js/bootstrap.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='bootstrap/js/bootstrap-datepicker.js') }}" charset="UTF-8"></script-->
+    <script src="{{ url_for('static', filename='bootstrap/js/bootstrap-datepicker.js') }}" charset="UTF-8"></script>
 
 
   </body>
