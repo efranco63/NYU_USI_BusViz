@@ -1,0 +1,48 @@
+<!--
+  HTML template by Kania
+-->
+
+<!DOCTYPE html>
+<html>
+  <!-- HEADER START -->
+  <head>
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBKMxUK5yzz0XnMa1FLB2GDvbrdnaEY5vQ"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+
+    <script type="text/javascript" src="{{ url_for('static', filename='js/d3/d3.js') }}"></script>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap/css/bootstrapcyborg.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap/css/bootstrap-datepicker3.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">  
+
+  </head>
+  <!-- HEADER ENDS -->
+
+  <!-- BODY START -->
+  <body>
+    <div id="map-canvas"></div>
+
+    <!-- NAVIGATION START-->
+    <div id ="panelContent">
+      <div class="input-group date">
+        <input type="text" class="form-control"><span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+      </div>
+
+    </div>
+    <!-- NAVIGATION END-->
+
+    <div id="title-panel">
+      NYC
+      <span class="light">BUSVIZ</span>
+      {{ buscount }}
+    </div>
+
+    
+    <script type="text/javascript" src="{{ url_for('static', filename='js/map.js') }}"> </script>
+    <script src="{{ url_for('static', filename='bootstrap/js/bootstrap.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='bootstrap/js/bootstrap-datepicker.js') }}" charset="UTF-8"></script-->
+
+
+  </body>
+  <!-- BODY ENDS -->
+</html>

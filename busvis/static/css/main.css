@@ -1,0 +1,40 @@
+html, body{
+	padding: 0;
+	margin: 0;
+	height: 100%;
+	width: 100%;
+	font-family: Lato;
+	font-size : 24px;
+}
+
+#map-canvas { 
+	height: 93%; 
+	margin: 0; 
+	padding: 0;
+}
+
+#title-panel{
+	height : 7%;
+	padding-left : .3%;
+	background-color: #000000;
+	color:#ffffff;
+	font-weight: 700;
+}
+
+.light {
+	font-weight: 300;
+	color : #2360a5;
+}
+
+#panelContent {
+	position: absolute;
+	right: 10px;
+	top: 5px;
+	width: 300px;
+	height: 340px;
+	display: block;
+	color: #ffffff;
+	transition: 0.25s linear;
+	-webkit-transition: 0.25s linear;
+	overflow: hidden;
+}
