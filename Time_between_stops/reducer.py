@@ -33,11 +33,13 @@ def main():
             # if this stop is different than the last, we know the bus has passed it
             # print the prrior stop along with the prior and current time so we know
             # the time frame in which the stop was passed
-            if stop == prior_stop:
-                continue
-            else:
+            if stop != prior_stop:
                 print "%s|%s|%s" %(prior_stop,prior_time,time_stamp)
-                prior_stop = stop
+            prior_id = busid
+            prior_dir = direction
+            prior_route = route
+            prior_stop = stop
+            prior_time = time_stamp
 
         else:
             prior_id = busid
