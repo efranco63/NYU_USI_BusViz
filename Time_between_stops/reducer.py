@@ -34,7 +34,7 @@ def main():
             # print the prrior stop along with the prior and current time so we know
             # the time frame in which the stop was passed
             if stop != prior_stop:
-                print "%s|%s|%s" %(prior_stop,prior_time,time_stamp)
+                print "%s|%s|%s|%s|%s" %(prior_stop,prior_dir,prior_route,prior_time,time_stamp)
             prior_id = busid
             prior_dir = direction
             prior_route = route
