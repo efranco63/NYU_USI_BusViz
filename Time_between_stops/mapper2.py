@@ -22,10 +22,10 @@ def main():
         time_s = datetime.strptime(row[3][-8:],'%H:%M:%S')
         time_e = datetime.strptime(row[4][-8:],'%H:%M:%S')
         # take the midpoint as time when the bus passed this stop
-        mid = (time_e - time_s)/2
-        time_stamp = time_e - mid
+        # mid = (time_e - time_s)/2
+        # time_stamp = time_e - mid
 
-        print "%s|%s|%s|%s" %(stop,route,direction,time_stamp.strftime('%H:%M:%S'))
+        print "%s|%s|%s|%s|%s" %(stop,route,direction,time_s.strftime('%H:%M:%S'),time_e.strftime('%H:%M:%S'))
 
 if __name__ == "__main__":
     main()
