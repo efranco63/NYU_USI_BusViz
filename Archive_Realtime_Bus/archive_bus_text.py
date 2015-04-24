@@ -1,12 +1,10 @@
 #!/usr/local/bin/python2.7
 
 ###############################################################################
-##
 ## archive_bus_text.py
 ## fetch all bus data, simple plot and store it to text file
 ## MTA bus key = 4723b4b0-3e16-4a17-a24b-48d79ea53dc0
-## 
-##
+## contact: drp354@nyu.edu
 ###############################################################################
 
 import urllib2,json,argparse,sys
