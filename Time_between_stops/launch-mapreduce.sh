@@ -30,5 +30,7 @@ $HJS \
 -output USI/out-mr-2
 
 #copy to cloud
+echo "Mapreduce output timestamp:$(date)" > last_updated.log
 $HFS -getmerge USI/out-mr-2 bus_list.csv
 scp -rp bus_list.csv master@busvis.cloudapp.net:/var/www/html/busvis/data/
+scp -rp bus_list_last_updated.log master@busvis.cloudapp.net:/var/www/html/busvis/data/
