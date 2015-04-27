@@ -3,7 +3,7 @@ L.mapbox.accessToken = 'pk.eyJ1Ijoia2VubnlhenJpbmEiLCJhIjoidUY3OFkxVSJ9.5wxiS6D6
 //load busroute
 
 var map = L.mapbox.map('map-canvas')
-    .setView([40.725497, -73.974016], 13)
+    .setView([40.725497, -73.844016], 11)
     .addLayer(L.mapbox.tileLayer('kennyazrina.lpg413d8'));
 
 var bus_stops = omnivore.csv('static/busroute/bus_stop_descriptions.csv')
@@ -44,9 +44,12 @@ bus_stops.on('mouseout', function(e) {
     e.layer.closePopup();
 });
 
-L.mapbox.featureLayer('kennyazrina.lpg413d8')
-    .on('ready', function(e) {
-    // The clusterGroup gets each marker in the group added to it
-    // once loaded, and then is added to the map
-    
+bus_stops.on('click', function(e) {
+    //map.setView([e.layer.toGeoJSON().properties.stop_lat,e.layer.toGeoJSON().properties.stop_lon],13);
+    console.log(e.layer.toGeoJSON().properties.stop_lon);
 });
+
+$( document ).ready(function() {
+    $('#myNavmenu').offcanvas();
+});
+

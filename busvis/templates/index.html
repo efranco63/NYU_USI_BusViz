@@ -14,6 +14,7 @@
     <link href='https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-markercluster/v0.4.0/MarkerCluster.Default.css' rel='stylesheet' />
     <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap/css/bootstrapcyborg.min.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap/css/bootstrap-datepicker3.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='jasny/css/jasny-bootstrap.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">  
 
   </head>
@@ -23,7 +24,7 @@
   <body>
     <div id="map-canvas"></div>
 
-    <!-- NAVIGATION START-->
+    <!-- NAVIGATION START
     <div id ="panelContent">
       <div class="input-group date">
         <input type="text" class="form-control"><span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
@@ -34,23 +35,73 @@
       </div>
 
     </div>
-    <!-- NAVIGATION END-->
-
+    NAVIGATION END-->
+<!--
     <div id="title-panel">
       NYC
       <span class="light">BUSVIZ</span>
-      <!--{{ buscount }}-->
-    </div>
+      {{ buscount }}
+    </div>-->
+
+    <nav class="navbar navbar-default navbar-fixed-bottom">
+      <div class="container">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#myNavmenu">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">
+            <div id="title-panel">
+              NYC
+            <span class="light">BUSVIZ</span>
+            </div>
+          </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="#">About <span class="sr-only">(current)</span></a></li>
+            <li><a href="#">Members</a></li>
+          </ul>
+        </div><!-- /.navbar-collapse -->
+      </div>
+    </nav>
+
+    <!-- ON-DEMAND SIDEBAR -->
+
+
+    <nav id="myNavmenu" class="navmenu navmenu-inverse navmenu-fixed-right offcanvas" role="navigation">
+
+    <a class="navmenu-brand" href="#">Brand</a>
+
+      <ul class="nav navmenu-nav">
+        <li class="active"><a href="#">Link</a></li>
+        <li><a href="#">Link</a></li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
+          <ul class="dropdown-menu navmenu-nav" role="menu">
+            <li><a href="#">Action</a></li>
+            <li><a href="#">Another action</a></li>
+            <li><a href="#">Something else here</a></li>
+            <li><a href="#">Separated link</a></li>
+            <li><a href="#">One more separated link</a></li>
+          </ul>
+        </li>
+      </ul>
+    </nav>
+
+
     <script src='https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-omnivore/v0.2.0/leaflet-omnivore.min.js'></script>
     <script src='https://api.tiles.mapbox.com/mapbox.js/v2.1.8/mapbox.js'></script>
     <script src='https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-markercluster/v0.4.0/leaflet.markercluster.js'></script>
     <script type="text/javascript" src="{{ url_for('static', filename='js/map.js') }}"> </script>
     <script src="{{ url_for('static', filename='bootstrap/js/bootstrap.min.js') }}"></script>
     <script src="{{ url_for('static', filename='bootstrap/js/bootstrap-datepicker.js') }}" charset="UTF-8"></script>
-
-    
-
-
+    <script src="{{ url_for('static', filename='jasny/js/jasny-bootstrap.js') }}" charset="UTF-8"></script>
 
 
   </body>
