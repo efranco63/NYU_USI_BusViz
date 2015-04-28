@@ -3,10 +3,10 @@ L.mapbox.accessToken = 'pk.eyJ1Ijoia2VubnlhenJpbmEiLCJhIjoidUY3OFkxVSJ9.5wxiS6D6
 //load busroute
 
 var map = L.mapbox.map('map-canvas')
-    .setView([40.725497, -73.844016], 11)
+    .setView([40.725497, -73.844016], mapboxZoomLevel)
     .addLayer(L.mapbox.tileLayer('kennyazrina.lpg413d8'));
 
-var bus_stops = omnivore.csv('static/busroute/bus_stop_descriptions.csv')
+var bus_stops = omnivore.csv(file_bus_stop_descriptions)
     .on('ready', function(e) {
         // An example of customizing marker styles based on an attribute.
         // In this case, the data, a CSV file, has a column called 'state'
@@ -15,7 +15,7 @@ var bus_stops = omnivore.csv('static/busroute/bus_stop_descriptions.csv')
         this.eachLayer(function(marker) {
             
             marker.setIcon(L.mapbox.marker.icon({
-                    'marker-color': '#4569A8',
+                    'marker-color': mapMarkerColor,
                     'marker-size': 'large',
                     'marker-symbol': 'bus'
                 }));
@@ -45,11 +45,13 @@ bus_stops.on('mouseout', function(e) {
 });
 
 bus_stops.on('click', function(e) {
-    //map.setView([e.layer.toGeoJSON().properties.stop_lat,e.layer.toGeoJSON().properties.stop_lon],13);
-    console.log(e.layer.toGeoJSON().properties.stop_lon);
+    var stop_id = e.layer.feature.stop_id;
+    prepareHistogramData(stop_id);
+    $('#myNavmenu').offcanvas();
+
 });
 
 $( document ).ready(function() {
-    $('#myNavmenu').offcanvas();
+    //$('#myNavmenu').offcanvas();
 });
 

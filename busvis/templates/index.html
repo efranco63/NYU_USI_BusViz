@@ -7,6 +7,7 @@
   <!-- HEADER START -->
   <head>
     <!--<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBKMxUK5yzz0XnMa1FLB2GDvbrdnaEY5vQ"></script>-->
+    <script type="text/javascript" src="{{ url_for('static', filename='js/config.js') }}"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='js/d3/d3.js') }}"></script>
     <link href='https://api.tiles.mapbox.com/mapbox.js/v2.1.8/mapbox.css' rel='stylesheet' />
@@ -16,6 +17,9 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap/css/bootstrap-datepicker3.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='jasny/css/jasny-bootstrap.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">  
+
+    <!-- VISUALISATION JS -->
+    <script type="text/javascript" src="{{ url_for('static', filename='js/visualization/histogram.js') }}"></script>
 
   </head>
   <!-- HEADER ENDS -->
@@ -76,7 +80,13 @@
 
     <nav id="myNavmenu" class="navmenu navmenu-inverse navmenu-fixed-right offcanvas" role="navigation">
 
-    <a class="navmenu-brand" href="#">Brand</a>
+    <h2>Bus Stop ID</h2>
+    <p id="routes">Bus routes running through this stop:</p>
+
+    <!-- D3 generated histogram -->
+    <div id="busstop_histogram">Here comes a wonderful histogram<div>
+
+    <!-- <a class="navmenu-brand" href="#">Brand</a>
 
       <ul class="nav navmenu-nav">
         <li class="active"><a href="#">Link</a></li>
@@ -91,7 +101,7 @@
             <li><a href="#">One more separated link</a></li>
           </ul>
         </li>
-      </ul>
+      </ul> -->
     </nav>
 
 
