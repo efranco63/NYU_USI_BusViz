@@ -25,10 +25,19 @@ def index():
 	## research if Flask's SQLAlchemy module is better than psycopg2
 	## find file structure to separate DB config, queries and Python code
 
+	## Testing reading file from stop id
+	import read_1day_json 
+
+    stop_id = "MTA_803008"
+    stop_id_json = read_1day_json.readStopId(stop_id)
+    print stop_id_json
+
+
+    ################## PostGre Test ############################################
 	## TODO: Retrieve date from frontend input field
 	date = "2014-08-04"
 
-	import psycopg2
+	#import psycopg2
 	#date=raw_input('enter date: (2014-08-01)\n').strip()
 
 	#commented for development
