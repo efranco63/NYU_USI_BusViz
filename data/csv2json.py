@@ -15,21 +15,27 @@ def parser(item):
         return seconds
     except:
         return 0
-csvfile=csv.reader(records('waittimes2_n'),delimiter='|')
-for row in csvfile: 
-    try:
-        if row[0] not in lookuptable:
-            lookuptable[row[0]]={}
-            lookuptable[row[0]][row[1]]=[]
-        else:
-            if row[1] not in lookuptable[row[0]]:
+
+def main():
+    csvfile=csv.reader(records('waittimes2_n'),delimiter='|')
+    for row in csvfile: 
+        try:
+            if row[0] not in lookuptable:
+                lookuptable[row[0]]={}
                 lookuptable[row[0]][row[1]]=[]
-        for item in row[2:]:
-            xlist=item.strip().split(',')
-            xlist=map(parser,xlist)
-            lookuptable[row[0]][row[1]].append(xlist)
-    except:
-        pass
+            else:
+                if row[1] not in lookuptable[row[0]]:
+                    lookuptable[row[0]][row[1]]=[]
+            for item in row[2:]:
+                xlist=item.strip().split(',')
+                xlist=map(parser,xlist)
+                lookuptable[row[0]][row[1]].append(xlist)
+        except:
+            pass
+
+
+if __name__ == '__main__':
+    main()
 
 import json
 with open('dummy.json','w') as f:
