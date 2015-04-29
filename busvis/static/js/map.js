@@ -45,8 +45,28 @@ bus_stops.on('mouseout', function(e) {
 });
 
 bus_stops.on('click', function(e) {
-    var stop_id = e.layer.feature.stop_id;
+    
+    var stop_id = e.layer.feature.properties.stop_id;
+    var stop_name = e.layer.feature.properties.stop_name;
+    var bus_lines = e.layer.feature.properties.bus_lines;
     prepareHistogramData(stop_id);
+    d3.select("#myNavmenu").select("h2").text(stop_id);
+    d3.select("#myNavmenu").select("h4").text(stop_name);
+
+    d3.select("#myNavmenu").select("#routes").text(bus_lines);
+
+    // TODO: this does not work bec. this is a string!!!
+    //var bus_linesArr = JSON.parse(bus_lines);
+    //console.log("RP: bus stop on click:", JSON.parse(bus_lines));
+    // d3.select("#routes")
+    //     .selectAll("p")
+    //         .data(bus_lines)
+    //         .enter()
+    //         .append("p")
+    //         .text(function(d) {
+    //             return d;           
+    //         });
+    
     $('#myNavmenu').offcanvas();
 
 });

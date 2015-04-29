@@ -1,0 +1,42 @@
+
+
+/******************************************************
+  AXIS
+******************************************************/
+
+.axis path, .axis line {
+  fill: none;
+  stroke: #666;
+  shape-rendering: crispEdges;
+}
+
+.axis text {
+  font-family: sans-serif;
+  font-size: 10px;
+  fill: black;
+}
+
+
+
+/******************************************************
+  HISTOGRAM
+******************************************************/
+
+.bar rect {
+  fill: #4569A8;
+  shape-rendering: crispEdges;
+}
+
+.bar text {
+  fill: #fff;
+}
+
+.vert_line line {
+	stroke: #f23f3f;     /*Bright red*/
+	stroke-width: 3;
+  /*shape-rendering: crispEdges;*/
+}
+
+.vert_line text {
+  fill: #f23f3f;    /*Bright red*/
+} 

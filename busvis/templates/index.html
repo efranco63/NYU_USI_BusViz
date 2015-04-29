@@ -16,7 +16,8 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap/css/bootstrapcyborg.min.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap/css/bootstrap-datepicker3.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='jasny/css/jasny-bootstrap.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">  
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}"> 
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/visualization.css') }}">  
 
     <!-- VISUALISATION JS -->
     <script type="text/javascript" src="{{ url_for('static', filename='js/visualization/histogram.js') }}"></script>
@@ -79,8 +80,9 @@
 
 
     <nav id="myNavmenu" class="navmenu navmenu-inverse navmenu-fixed-right offcanvas" role="navigation">
-
+    <!-- D3 filled content -->
     <h2>Bus Stop ID</h2>
+    <h4>Bus Stop Name</h4>
     <p id="routes">Bus routes running through this stop:</p>
 
     <!-- D3 generated histogram -->

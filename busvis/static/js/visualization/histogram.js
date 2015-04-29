@@ -6,14 +6,24 @@
 function prepareHistogramData(stop_id) {
   console.log("RP: inside prepareHistogramData for stop id ", stop_id);
 
-  //d3.csv()
+  d3.json(file_bus_stop_waittimes, function(error, json) {
+    if (error) return console.warn(error);
+    data = json;
+    console.log("RP: this is my dummy json:", file_bus_stop_waittimes, data);
+  });
+
+  makeHistogram(stop_id);
 
 }
 
 
 function makeHistogram(dataset) {
 
+  d3.select("#busstop_histogram").select("svg").remove();
+
   var values = dataset;
+  var values = [186,156,96,120,145,130,162,78,166,167, 186,156,96,120,
+  145,130,162,78,166,167,186,156,96,120,145,130,162,78,166,167]
 
   // A formatter for counts.
   var formatCount = d3.format(",.0f");
@@ -43,7 +53,7 @@ function makeHistogram(dataset) {
       .scale(x)
       .orient("bottom");
 
-  var locationDiv = d3.select("#histogram");
+  var locationDiv = d3.select("#busstop_histogram");
 
   var svg = locationDiv.append("svg")
       .attr("width", width + margin.left + margin.right)
@@ -84,7 +94,7 @@ function makeHistogram(dataset) {
       .style("text-anchor", "middle")
       .attr("transform", function(d) { return "translate(" + width/2 + "," +0+")"; })
       // changed label to reflect filtering
-      .text(labelWeatherNormEUIShort);
+      .text(labelStopHistoY);
 
   
   svg.append("g").attr("class","vert_line");
