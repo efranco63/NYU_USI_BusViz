@@ -14,7 +14,7 @@ HFS='/usr/local/hadoop/bin/hadoop fs '
 HJS='/usr/local/hadoop/bin/hadoop jar /usr/local/hadoop/share/hadoop/tools/lib/hadoop-streaming-2.2.0.jar'
 
 # map reduce 1
-$HJS -D mapreduce.job.reduces=1 \
+$HJS \
 -files mapper.py,reducer.py \
 -mapper mapper.py \
 -reducer reducer.py  \
@@ -22,7 +22,7 @@ $HJS -D mapreduce.job.reduces=1 \
 -output USI/out-mr-1
 
 # map reduce 2
-$HJS \
+$HJS -D mapreduce.job.reduces=1 \
 -files mapper2.py,reducer2.py \
 -mapper mapper2.py \
 -reducer reducer2.py  \
@@ -30,7 +30,7 @@ $HJS \
 -output USI/out-mr-2
 
 #copy to cloud
-echo "Mapreduce output timestamp:$(date)" > last_updated.log
+echo "Mapreduce output timestamp | $(date)" > last_updated.log
 $HFS -getmerge USI/out-mr-2 bus_list.csv
 scp -rp bus_list.csv master@busvis.cloudapp.net:/var/www/html/busvis/data/
 scp -rp bus_list_last_updated.log master@busvis.cloudapp.net:/var/www/html/busvis/data/
