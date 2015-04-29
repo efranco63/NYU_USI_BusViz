@@ -45,3 +45,5 @@ for row in csvfile:
     except:
         pass
 
+with open('0804.json','w') as f:
+    json.dump(lookuptable, f)
