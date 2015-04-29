@@ -9,7 +9,7 @@
 import json
 
 # parameters
-json_filename = '../data/0804.json'
+json_filename = 'data/0804.json'
 
 def loadJson():
     with open(json_filename) as f:

@@ -27,10 +27,9 @@ def index():
 
 	## Testing reading file from stop id
 	import read_1day_json 
-
-    stop_id = "MTA_803008"
-    stop_id_json = read_1day_json.readStopId(stop_id)
-    print stop_id_json
+        stop_id = "MTA_803008"
+        stop_id_json = read_1day_json.readStopId(stop_id)
+        print stop_id_json
 
 
     ################## PostGre Test ############################################
@@ -64,7 +63,7 @@ def index():
 
 if __name__ == '__main__':
 	## prod server:
-    app.run(host='0.0.0.0', port=80, debug = True)
+    app.run(host='0.0.0.0', port=5000, debug = True)
 
     ## localhost
     ##app.run(port=5000, debug = True)
