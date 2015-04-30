@@ -9,7 +9,7 @@ import json
 
 lookuptable={}
 
-# defining some functions for the reader and for parsing date times items
+# defining some functions for the reader and for parsing date times items.
 def records(path):
     with open(path) as f:
         contents = f.read()
