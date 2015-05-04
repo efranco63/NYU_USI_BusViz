@@ -42,3 +42,7 @@ html, body{
 	-webkit-transition: 0.25s linear;
 	overflow: hidden;
 }
+
+#myNavmenu{
+	padding : 20px;
+}
