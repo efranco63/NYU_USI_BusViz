@@ -1,29 +1,32 @@
 
 /******************************************************
-  VISUALIZATIONS; Histogram
+  VISUALIZATIONS Histogram
 ******************************************************/
 
 function prepareHistogramData(stop_id) {
-  console.log("RP: inside prepareHistogramData for stop id ", stop_id);
+  // console.log("RP: inside prepareHistogramData for stop id ", stop_id);
 
   d3.json(file_bus_stop_waittimes, function(error, json) {
     if (error) return console.warn(error);
     data = json;
-    console.log("RP: this is my dummy json:", file_bus_stop_waittimes, data);
-  });
 
-  makeHistogram(stop_id);
+    // console.log("RP: this is my dummy json:", file_bus_stop_waittimes, data);
+    makeHistogram(data);
+  });
 
 }
 
 
 function makeHistogram(dataset) {
 
+  console.log("RP: inside makeHistogram, dataset: ", dataset);
+
   d3.select("#busstop_histogram").select("svg").remove();
 
-  var values = dataset;
-  var values = [186,156,96,120,145,130,162,78,166,167, 186,156,96,120,
-  145,130,162,78,166,167,186,156,96,120,145,130,162,78,166,167]
+  var values = dataset.MTANYCT_M100.maxtimes;
+  console.log("RP: values: ", values);
+  // var values = [186,156,96,120,145,130,162,78,166,167, 186,156,96,120,
+  // 145,130,162,78,166,167,186,156,96,120,145,130,162,78,166,167]
 
   // A formatter for counts.
   var formatCount = d3.format(",.0f");

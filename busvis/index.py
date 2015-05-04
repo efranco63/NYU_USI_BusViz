@@ -58,15 +58,15 @@ def index():
 
 	## send variable buscount to be shown inside /templates/index.html
 	#return '<html><body><p>see what we got: ' + str(int(rows[0][0])) + '</p></body></html>'
-	return render_template('index.html', date = date, buscount = totalBusCount)
+	return render_template('index.html', date = date, buscount = totalBusCount, waittimes_json = stop_id_json)
 
 
 if __name__ == '__main__':
 	## prod server:
-    app.run(host='0.0.0.0', port=5000, debug = True)
+    #app.run(host='0.0.0.0', port=5000, debug = True)
 
     ## localhost
-    ##app.run(port=5000, debug = True)
+    app.run(port=5000, debug = True)
 
 
 

@@ -3,8 +3,8 @@
   CONFIGURATION
 ******************************************************/
 
-var env = "prod";
-//var env = "dev";
+//var env = "prod";
+var env = "dev";
 
 
 /******************************************************
@@ -13,7 +13,7 @@ var env = "prod";
 
 var file_bus_stop_descriptions = "/static/busroute/bus_stop_descriptions.csv";
 
-var file_bus_stop_waittimes = "/static/webdata/waittimes-dummy-mini.json";
+var file_bus_stop_waittimes = "/static/webdata/waittimes-dummy-fromDB.json";
 
 
 /******************************************************
@@ -33,9 +33,9 @@ var mapMarkerColor = mediumGreen;
 ******************************************************/
 
 //	define histogram
-var histoWidth = 250;
+var histoWidth = 280;
 var histoHeight = 150;
-var histoAreaPadding = 10;
+var histoAreaPadding = 40;
 
 
 // consistent text for all our labels for frontend

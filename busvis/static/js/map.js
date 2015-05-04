@@ -49,7 +49,8 @@ bus_stops.on('click', function(e) {
     var stop_id = e.layer.feature.properties.stop_id;
     var stop_name = e.layer.feature.properties.stop_name;
     var bus_lines = e.layer.feature.properties.bus_lines;
-    prepareHistogramData(stop_id);
+    prepareHistogramData(stop_id);  //we don't need to prepare and read a file bec we already have the json as a parameter
+    //makeHistogram(waittimes_json);
     d3.select("#myNavmenu").select("h2").text(stop_id);
     d3.select("#myNavmenu").select("h4").text(stop_name);
 
