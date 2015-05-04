@@ -71,7 +71,9 @@ bus_stops.on('mouseout', function(e) {
 
 bus_stops.on('click', function(e) {
 
-    map.setView([40.725497, -73.844016], mapboxZoomLevel)
+    $('#myNavmenu').offcanvas('show');
+
+    //map.setView([40.725497, -73.844016], mapboxZoomLevel)
 
     var stop_id = e.layer.feature.properties.stop_id;
     var stop_name = e.layer.feature.properties.stop_name;
