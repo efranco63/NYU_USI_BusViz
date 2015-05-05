@@ -62,6 +62,26 @@ var bus_stops = omnivore.csv(file_bus_stop_descriptions)
     })
     //.addTo(map);
 
+var myStyle = {
+            //"color": "#EE352E",
+            "weight": 2,
+            "opacity": 0.5
+        };
+
+        /*L.geoJson(buses_manhattan, {
+            style: myStyle
+        }).addTo(map*/
+
+var busLines = L.geoJson(buses_all, {
+        style: function(feature) {
+        return {color: feature.properties.route_color};
+    }
+})
+
+busLines.setStyle(myStyle);
+busLines.addTo(map);
+
+
 bus_stops.on('mouseover', function(e) {
     e.layer.openPopup();
 });
@@ -83,7 +103,7 @@ bus_stops.on('click', function(e) {
     var stop_name = e.layer.feature.properties.stop_name;
     var lng = e.layer.feature.geometry.coordinates[0];
     var lat = e.layer.feature.geometry.coordinates[1];
-    //map.setView([lat, lng], 16)
+    map.setView([lat, lng], map.getZoom());
         
     // call server script to load JSON with wait times for this stop_id
     // draw histogram(s)
@@ -97,8 +117,10 @@ bus_stops.on('click', function(e) {
         });
     });
 
+    //get bus route color from data/busroute_color.csv
     d3.select("#myNavmenu").select("h2").text(stop_name);
-    d3.select("#myNavmenu").select("h4").text("Stop ID " + stop_id);
+    d3.select("#myNavmenu").select("h4").text("Stop ID : " + stop_id)
+                                        .style({'color': 'white'});
       
     $('#myNavmenu').offcanvas();
 

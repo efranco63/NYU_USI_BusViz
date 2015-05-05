@@ -19,7 +19,7 @@ var file_bus_stop_descriptions = "/static/busroute/bus_stop_descriptions.csv";
 ******************************************************/
 
 // for development
-var mapboxZoomLevel = (env === "dev") ? 17 :13;
+var mapboxZoomLevel = (env === "dev") ? 17 :11;
 
 /* Colors */
 var mediumGreen = "#4569A8";

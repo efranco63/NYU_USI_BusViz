@@ -1,6 +1,6 @@
 @font-face {
     font-family: Lato;
-    src: url('http://fonts.googleapis.com/css?family=Lato&subset=latin,latin-ext');
+    src : url('Lato2OFLWeb/Lato/Lato-Light.eot');
 }
 
 html, body{
@@ -11,8 +11,12 @@ html, body{
 	font-family: Lato ;
 }
 
-h2 {
-	font-size:28px;
+h2, .h2{
+	font-size: 24 !important;
+}
+
+h4, .h4{
+	font-size: 16 !important;
 }
 
 #map-canvas { 
@@ -49,4 +53,17 @@ h2 {
 
 #myNavmenu{
 	padding : 20px;
+}
+
+#myNavmenu h2{
+	color : #2360a5;
+	text-align : center;
+}
+
+#myNavmenu h4{
+	text-align : center;
+}
+
+.navbar-brand{
+	width:150px;
 }

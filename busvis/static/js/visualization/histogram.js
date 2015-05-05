@@ -39,8 +39,11 @@ function makeHistogram(dataset, title) {
 
   var locationDiv = d3.select("#busstop_histogram");
 
+  var bus_id = title.split("_")[1];
+
   if(title != "") {
-    locationDiv.append("h6").text(title);
+    locationDiv.append("h6").text(title)
+                            .style({'color':colorMap[bus_id]});
   }
 
   var svg = locationDiv.append("svg")
@@ -62,7 +65,8 @@ function makeHistogram(dataset, title) {
   bar.append("rect")
       .attr("x", 1)
       .attr("width", x(data[0].dx + minVal) - 1 )
-      .attr("height", function(d) { return height - y(d.y); });
+      .attr("height", function(d) { return height - y(d.y); })
+      .style({'fill':colorMap[bus_id],'opacity':0.5});
 
   // bar.append("text")
   //     .attr("dy", ".75em")
