@@ -13,15 +13,13 @@ var env = "prod";
 
 var file_bus_stop_descriptions = "/static/busroute/bus_stop_descriptions.csv";
 
-var file_bus_stop_waittimes = "/static/webdata/waittimes-dummy-fromDB.json";
-
 
 /******************************************************
   MAP
 ******************************************************/
 
 // for development
-var mapboxZoomLevel = (env === "dev") ? 17 :11;
+var mapboxZoomLevel = (env === "dev") ? 17 :13;
 
 /* Colors */
 var mediumGreen = "#4569A8";

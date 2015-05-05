@@ -11,6 +11,10 @@ html, body{
 	font-family: Lato ;
 }
 
+h2 {
+	font-size:28px;
+}
+
 #map-canvas { 
 	height: 93%; 
 	margin: 0; 
@@ -41,4 +45,8 @@ html, body{
 	transition: 0.25s linear;
 	-webkit-transition: 0.25s linear;
 	overflow: hidden;
+}
+
+#myNavmenu{
+	padding : 20px;
 }
