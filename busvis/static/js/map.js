@@ -48,26 +48,25 @@ bus_stops.on('click', function(e) {
     
     var stop_id = e.layer.feature.properties.stop_id;
     var stop_name = e.layer.feature.properties.stop_name;
-    var bus_lines = e.layer.feature.properties.bus_lines;
-    prepareHistogramData(stop_id);  //we don't need to prepare and read a file bec we already have the json as a parameter
-    //makeHistogram(waittimes_json);
-    d3.select("#myNavmenu").select("h2").text(stop_id);
-    d3.select("#myNavmenu").select("h4").text(stop_name);
+        
+    // remove previous histograms from sidebar
+    d3.select("#busstop_histogram").select("svg").remove();
 
-    d3.select("#myNavmenu").select("#routes").text(bus_lines);
+    // call server script to load JSON with wait times for this stop_id
+    // draw histogram(s)
+    $.getJSON($SCRIPT_ROOT + '/_get_waittimes', {
+        stop_id: stop_id
+    }, function (data) {
+        // console.log("RP: inside bus_stops.on('click'", data);
+        $.each(data, function(k, v) {
+            // console.log("RP: k, v", k, v.maxtimes);
+            makeHistogram(v, k);
+        });
+    });
 
-    // TODO: this does not work bec. this is a string!!!
-    //var bus_linesArr = JSON.parse(bus_lines);
-    //console.log("RP: bus stop on click:", JSON.parse(bus_lines));
-    // d3.select("#routes")
-    //     .selectAll("p")
-    //         .data(bus_lines)
-    //         .enter()
-    //         .append("p")
-    //         .text(function(d) {
-    //             return d;           
-    //         });
-    
+    d3.select("#myNavmenu").select("h2").text(stop_name);
+    d3.select("#myNavmenu").select("h4").text("Stop ID " + stop_id);
+      
     $('#myNavmenu').offcanvas();
 
 });

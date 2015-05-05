@@ -3,8 +3,8 @@
   CONFIGURATION
 ******************************************************/
 
-//var env = "prod";
-var env = "dev";
+var env = "prod";
+//var env = "dev";
 
 
 /******************************************************
@@ -33,14 +33,14 @@ var mapMarkerColor = mediumGreen;
 ******************************************************/
 
 //	define histogram
-var histoWidth = 280;
+var histoWidth = 260;
 var histoHeight = 150;
 var histoAreaPadding = 40;
 
 
 // consistent text for all our labels for frontend
 var labelStopHistoX = "TODO";
-var labelStopHistoY = "Waiting time in min";
+var labelStopHistoY = "Waiting time in seconds";
 
 
 

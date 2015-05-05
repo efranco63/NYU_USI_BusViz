@@ -23,7 +23,8 @@
 ******************************************************/
 
 .bar rect {
-  fill: #4569A8;
+  /*fill: #4569A8;*/
+  fill: #fff;
   shape-rendering: crispEdges;
 }
 

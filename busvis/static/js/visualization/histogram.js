@@ -3,35 +3,16 @@
   VISUALIZATIONS Histogram
 ******************************************************/
 
-function prepareHistogramData(stop_id) {
-  // console.log("RP: inside prepareHistogramData for stop id ", stop_id);
 
-  d3.json(file_bus_stop_waittimes, function(error, json) {
-    if (error) return console.warn(error);
-    data = json;
+function makeHistogram(dataset, title) {
+  if (title === undefined) { title = ""; } 
 
-    // console.log("RP: this is my dummy json:", file_bus_stop_waittimes, data);
-    makeHistogram(data);
-  });
-
-}
-
-
-function makeHistogram(dataset) {
-
-  console.log("RP: inside makeHistogram, dataset: ", dataset);
-
-  d3.select("#busstop_histogram").select("svg").remove();
-
-  var values = dataset.MTANYCT_M100.maxtimes;
-  console.log("RP: values: ", values);
-  // var values = [186,156,96,120,145,130,162,78,166,167, 186,156,96,120,
-  // 145,130,162,78,166,167,186,156,96,120,145,130,162,78,166,167]
+  var values = dataset.maxtimes
 
   // A formatter for counts.
   var formatCount = d3.format(",.0f");
 
-  var margin = {top: 10, right: histoAreaPadding, bottom: histoAreaPadding, left: histoAreaPadding},
+  var margin = {top: 10, right: 10, bottom: histoAreaPadding, left: 10},
       width = histoWidth - margin.left - margin.right,
       height = histoHeight - margin.top - margin.bottom;
 
@@ -45,7 +26,7 @@ function makeHistogram(dataset) {
 
   // Generate a histogram using twenty uniformly-spaced bins.
   var data = d3.layout.histogram()
-      .bins(x.ticks(20))
+      .bins(x.ticks(5))
       (values);
 
   var y = d3.scale.linear()
@@ -57,6 +38,10 @@ function makeHistogram(dataset) {
       .orient("bottom");
 
   var locationDiv = d3.select("#busstop_histogram");
+
+  if(title != "") {
+    locationDiv.append("h6").text(title);
+  }
 
   var svg = locationDiv.append("svg")
       .attr("width", width + margin.left + margin.right)
@@ -99,53 +84,5 @@ function makeHistogram(dataset) {
       // changed label to reflect filtering
       .text(labelStopHistoY);
 
-  
   svg.append("g").attr("class","vert_line");
-}
-
-
-
-function drawLine(xVal) {
-
-  // Select the svg element containing the histogram
-  var svg = d3.select("#histogram").select("svg");
-
-  // Generate a linear map
-  var x = d3.scale.linear()
-      .domain([svg.attr("data-min"), svg.attr("data-max")])
-      .range([0, svg.attr("data-width")]);
-
-  // Get pointers to the line and text elements
-  var line = svg.select("g.vert_line").selectAll("line");
-  var lineText = svg.select("g.vert_line").selectAll("text");
-  var yOffset = 100;
-
-  // If the line is already displayed
-  if(line[0].length > 0) {
-    line.attr("x1",x(xVal))
-      .attr("x2",x(xVal))
-
-    lineText.attr("x", x(xVal))
-      .text(xVal);
-  }
-  // Line is not yet displayed
-  else {
-    line.data(xVal)
-      .enter()
-      .append("line")
-      .attr("x1",x(xVal))
-      .attr("y1",yOffset)
-      .attr("x2",x(xVal))
-      .attr("y2",svg.attr("data-height"));
-
-    lineText.data(xVal)
-      .enter()
-      .append("text")
-      .attr("dy", ".75em")
-      .attr("y", yOffset-12)
-      .attr("x", x(xVal))
-      .attr("text-anchor", "middle")
-      .text(xVal);
-  }
-
 }
