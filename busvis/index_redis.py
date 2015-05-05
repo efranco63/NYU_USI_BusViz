@@ -23,16 +23,21 @@ def get_waittimes():
 
 	## Testing reading file from stop id
 
-	import read_1day_json 
-# stop_id_json = read_1day_json.readStopId(stop_id)
-# # print stop_id_json
-# return jsonify(stop_id_json)
+	#	import read_1day_json 
+	# stop_id_json = read_1day_json.readStopId(stop_id)
+	# # print stop_id_json
+	# return jsonify(stop_id_json)
 	# testing redis 
 	import redis
+	import ast 
+
 	pool = redis.ConnectionPool(host='localhost', port=6379, db=0)
 	r = redis.Redis(connection_pool=pool)
 	stop_id_json=r.hget('stopid',stop_id)
+	stop_id_json = ast.literal_eval(str(stop_id_json))
 	return jsonify(stop_id_json)
+
+
 @app.route('/')
 def index():
 	date = "2014-08-04"

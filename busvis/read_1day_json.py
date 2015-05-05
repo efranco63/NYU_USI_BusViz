@@ -19,3 +19,4 @@ def loadJson():
 def readStopId(stop_id):
     json_object = loadJson()
     return json_object[stop_id]	
+    #return json.dump(json_object[stop_id])
