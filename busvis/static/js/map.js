@@ -113,7 +113,7 @@ bus_stops.on('click', function(e) {
         // console.log("RP: inside bus_stops.on('click'", data);
         $.each(data, function(k, v) {
             // console.log("RP: k, v", k, v.maxtimes);
-            makeHistogram(v, k);
+            makeHistogram(v, k, "sec");
         });
     });
 

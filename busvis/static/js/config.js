@@ -3,8 +3,8 @@
   CONFIGURATION
 ******************************************************/
 
-var env = "prod";
-//var env = "dev";
+//var env = "prod";
+var env = "dev";
 
 
 /******************************************************
@@ -38,7 +38,7 @@ var histoAreaPadding = 40;
 
 // consistent text for all our labels for frontend
 var labelStopHistoX = "TODO";
-var labelStopHistoY = "Waiting time in seconds";
+var labelStopHistoY = "Waiting time in minutes";
 
 
 

@@ -4,10 +4,25 @@
 ******************************************************/
 
 
-function makeHistogram(dataset, title) {
-  if (title === undefined) { title = ""; } 
+function makeHistogram(dataset, title, timeunit) {
+  if (title === undefined) { title = ""; }
+  if (timeunit === undefined) { timeunit = "min"; } 
 
   var values = dataset.maxtimes
+
+  // console.log("RP: inside makeHistogram, values:", values);
+
+  // in case values are in seconds tranform to minutes
+  if (timeunit === "sec") {
+    newValues = [];
+    valueInMinutes = 0;
+    for (var i=0; i < values.length; i++) {
+      valueInMinutes = values[i]/60;
+      newValues.push(valueInMinutes);
+      // console.log("RP: inside makeHistogram, newValues:", newValues);
+    }
+    values = newValues;
+  }
 
   // A formatter for counts.
   var formatCount = d3.format(",.0f");
@@ -26,7 +41,7 @@ function makeHistogram(dataset, title) {
 
   // Generate a histogram using twenty uniformly-spaced bins.
   var data = d3.layout.histogram()
-      .bins(x.ticks(5))
+      .bins(x.ticks(10))
       (values);
 
   var y = d3.scale.linear()
@@ -68,12 +83,18 @@ function makeHistogram(dataset, title) {
       .attr("height", function(d) { return height - y(d.y); })
       .style({'fill':colorMap[bus_id],'opacity':0.5});
 
-  // bar.append("text")
-  //     .attr("dy", ".75em")
-  //     .attr("y", 6)
-  //     .attr("x", x(data[0].dx + minVal) / 2)
-  //     .attr("text-anchor", "middle")
-  //     .text(function(d) { return formatCount(d.y); });
+  bar.append("text")
+      .attr("dy", ".75em")
+      .attr("y", 6)
+      .attr("x", x(data[0].dx + minVal) / 2)
+      .attr("text-anchor", "middle")
+      .text(function(d) { 
+        if(d.y > 30) {
+          return formatCount(d.y); 
+        } else {
+          return "";
+        }
+      });
 
   var ax = svg.append("g")
       .attr("class", "x axis")
