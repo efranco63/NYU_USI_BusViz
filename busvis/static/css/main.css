@@ -34,12 +34,11 @@ h4, .h4{
 
 #panelContent {
 	position: absolute;
-	right: 10px;
-	top: 5px;
-	width: 300px;
-	height: 340px;
+	left: 10px;
+	top: 10px;
+	width:25%;
+	height:30%;
 	display: block;
-	color: #ffffff;
 	transition: 0.25s linear;
 	-webkit-transition: 0.25s linear;
 	overflow: hidden;
@@ -47,6 +46,7 @@ h4, .h4{
 
 #myNavmenu{
 	padding : 20px;
+	width:70%;
 }
 
 #myNavmenu h2{
@@ -60,4 +60,9 @@ h4, .h4{
 
 .navbar-brand{
 	width:150px;
+}
+
+.dropdown-menu {
+	height : 60px ;
+	overflow:scroll;
 }

@@ -32,7 +32,27 @@
 
   <!-- BODY START -->
   <body>
+
+
     <div id="map-canvas"></div>
+
+    <div id ="panelContent">
+      <div class="input-group" style="height:20px; margin-bottom:10px;">
+        <input id="searchBus" type="text" class="form-control" data-provide="typeahead" placeholder="Search for bus stop ...">
+        <span class="input-group-btn">
+          <button id="searchBusButton" class="btn btn-default" type="button">Go!</button>
+        </span>
+      </div><!-- /input-group -->
+
+      <div id="datepicker" class="input-daterange">
+        <input id="startDate" type="text" class="input-small" value="08/04/2014" />
+        <span class="add-on">to</span>
+        <input id="endDate"type="text" class="input-small" value="08/11/2014" />
+      </div>
+
+    </div>
+
+
 
     <nav class="navbar navbar-default navbar-fixed-bottom">
       <div class="container">
@@ -63,15 +83,12 @@
     </nav>
 
     <!-- ON-DEMAND SIDEBAR -->
-
-
     <nav id="myNavmenu" class="navmenu navmenu-inverse navmenu-fixed-right offcanvas" role="navigation" style="padding:10px">
-    <!-- D3 filled content -->
-    <h2>Bus Stop Name</h2>
-    <h4>Bus Stop ID</h4>
-    <!-- D3 generated histogram -->
-    <div id="busstop_histogram">Distribution of waiting times (max)<div>
-
+      <!-- D3 filled content -->
+      <h2>Bus Stop Name</h2>
+      <h4>Bus Stop ID</h4>
+      <!-- D3 generated histogram -->
+      <div id="busstop_histogram">Distribution of waiting times (max)<div>
     </nav>
 
 
@@ -80,9 +97,12 @@
     <script src='https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-markercluster/v0.4.0/leaflet.markercluster.js'></script>
     <script type="text/javascript" src="{{ url_for('static', filename='js/busdata.js') }}"> </script>
     <script type="text/javascript" src="{{ url_for('static', filename='js/map.js') }}"> </script>
+       <script src="{{ url_for('static', filename='bootstrap/js/typeahead.js') }}" charset="UTF-8"></script>
     <script src="{{ url_for('static', filename='bootstrap/js/bootstrap.min.js') }}"></script>
     <script src="{{ url_for('static', filename='bootstrap/js/bootstrap-datepicker.js') }}" charset="UTF-8"></script>
+
     <script src="{{ url_for('static', filename='jasny/js/jasny-bootstrap.js') }}" charset="UTF-8"></script>
+     <script type="text/javascript" src="{{ url_for('static', filename='js/app.js') }}"> </script>
 
 
   </body>
