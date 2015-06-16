@@ -43,11 +43,11 @@ def main():
                         end_point = prior_time
                         end_distance = prior_distance
                         delta_time = (end_point-start_point).total_seconds()
-                        delta_distance = abs(float(start_distance) - float(end_distance))
-                        if delta_time != 0 and delta_distance != 0:
-                            #print "%s|%s|%s\t%s\t%s\t" % (prior_route, prior_stop, prior_dir, str(delta_time), str(delta_distance))
-                            print "%s|%s|%s\t%s\t%s\t%s,%s" % (prior_route, prior_stop, prior_dir, str(delta_time), str(delta_distance),\
-                                                          start_point.strftime("%Y-%m-%d %H:%M:%S"), end_point.strftime("%Y-%m-%d %H:%M:%S"))
+                        delta_distance = float(start_distance) - float(end_distance)
+                        if delta_time != 0 and delta_distance > 0:
+                            print "%s|%s|%s\t%s\t%s\t" % (prior_route, prior_stop, prior_dir, str(delta_time), str(delta_distance))
+                            #print "%s|%s|%s\t%s\t%s\t%s,%s" % (prior_route, prior_stop, prior_dir, str(delta_time), str(delta_distance),\
+                            #                              start_point.strftime("%Y-%m-%d %H:%M:%S"), end_point.strftime("%Y-%m-%d %H:%M:%S"))
                     start_point = time_stamp
                     start_distance = distance
                 else:
