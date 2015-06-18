@@ -36,8 +36,8 @@ h4, .h4{
 	position: absolute;
 	left: 10px;
 	top: 10px;
+	height:20%;
 	width:25%;
-	height:30%;
 	display: block;
 	transition: 0.25s linear;
 	-webkit-transition: 0.25s linear;
@@ -62,7 +62,11 @@ h4, .h4{
 	width:150px;
 }
 
-.dropdown-menu {
-	height : 60px ;
-	overflow:scroll;
+form{
+	color:#fff;
 }
+
+.form-group{
+	font-weight: 0;
+}
+

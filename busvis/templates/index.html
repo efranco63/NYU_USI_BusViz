@@ -49,6 +49,34 @@
         <span class="add-on">to</span>
         <input id="endDate"type="text" class="input-small" value="08/11/2014" />
       </div>
+      <br>
+<!--
+      <form>
+        <div class="form-group">
+          <label for="busStop">Bus Stop</label>
+          <div class="input-group">
+            <label><input type="radio"> Wait Times</label> <br>
+            <label><input type="radio"> Bus Lines Count</label> <br>
+            <label><input type="radio"> Borough</label> <br>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="busLines">Bus Lines</label>
+          <div class="input-group">
+            <label><input type="radio"> Average Speed</label><br>
+            <label><input type="radio"> No. Of Bus Stops</label><br>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="busLines">Bus Clusters</label>
+          <div class="input-group">
+            <label><input type="radio"> Boroughs</label><br>
+            <label><input type="radio"> Neighborhood</label><br>
+            <label><input type="radio"> Zip Codes</label><br>
+          </div>
+        </div>
+      </form>
+      -->
 
     </div>
 
@@ -97,12 +125,11 @@
     <script src='https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-markercluster/v0.4.0/leaflet.markercluster.js'></script>
     <script type="text/javascript" src="{{ url_for('static', filename='js/busdata.js') }}"> </script>
     <script type="text/javascript" src="{{ url_for('static', filename='js/map.js') }}"> </script>
-       <script src="{{ url_for('static', filename='bootstrap/js/typeahead.js') }}" charset="UTF-8"></script>
+    <script src="{{ url_for('static', filename='bootstrap/js/typeahead.js') }}" charset="UTF-8"></script>
     <script src="{{ url_for('static', filename='bootstrap/js/bootstrap.min.js') }}"></script>
     <script src="{{ url_for('static', filename='bootstrap/js/bootstrap-datepicker.js') }}" charset="UTF-8"></script>
-
     <script src="{{ url_for('static', filename='jasny/js/jasny-bootstrap.js') }}" charset="UTF-8"></script>
-     <script type="text/javascript" src="{{ url_for('static', filename='js/app.js') }}"> </script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/app.js') }}"> </script>
 
 
   </body>
