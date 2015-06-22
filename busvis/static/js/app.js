@@ -3,6 +3,12 @@ $('#datepicker').datepicker({
 
 $("#searchBus").typeahead({source:bus_stops_name});
 
+
+$('#busClusterToggle').bootstrapToggle();
+$('#busClusterToggle').change(function() {
+	//alert($(this).prop('checked'));
+})
+
 /*
 $("#searchBus").keyup(function(event){
 	if(event.keyCode == 13){

@@ -112,7 +112,7 @@ function clickButton() {
             d3.select("#busstop_histogram").selectAll("svg").remove();
             d3.select("#busstop_histogram").selectAll("h6").remove();
 
-            var lng = marker.feature.geometry.coordinates[0]+0.006;
+            var lng = marker.feature.geometry.coordinates[0];
             var lat = marker.feature.geometry.coordinates[1];
             lines = cleanLineNames(marker.feature.properties.bus_lines);
             var stop_id = marker.feature.properties.stop_id;
@@ -171,11 +171,11 @@ bus_stops.on('click', function(e) {
 
     var stop_id = e.layer.feature.properties.stop_id;
     var stop_name = e.layer.feature.properties.stop_name;
-    var lng = e.layer.feature.geometry.coordinates[0]+0.006;
+    var lng = e.layer.feature.geometry.coordinates[0];
     var lat = e.layer.feature.geometry.coordinates[1];
     var lines = cleanLineNames(e.layer.feature.properties.bus_lines);
-    //map.setView([lat, lng], map.getZoom());
-    map.setView([lat, lng], 19);
+    map.setView([lat, lng], map.getZoom());
+    //map.setView([lat, lng], 19);
         
     // call server script to load JSON with wait times for this stop_id
     // draw histogram(s)

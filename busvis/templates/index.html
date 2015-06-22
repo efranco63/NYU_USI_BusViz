@@ -18,6 +18,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='jasny/css/jasny-bootstrap.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/visualization.css') }}">  
     <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}"> 
+    <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.0/css/bootstrap-toggle.min.css" rel="stylesheet">
 
     <!-- VISUALISATION JS -->
     <script type="text/javascript" src="{{ url_for('static', filename='js/visualization/busroute_color.js') }}"></script>
@@ -35,12 +36,172 @@
 
 
     <div id="map-canvas"></div>
+    <div id="side-panel">
+    
+      <div id="main-title">
+        <h2>NYC<span class="light">BUSVIZ</span></h2>
+      </div>
+
+      <div class="panel-group" id="accordion">
+        <div class="panel panel-default">
+          <div class="panel-heading"> 
+            <h3 class="panel-title">
+            <a data-toggle="collapse" data-target="#collapseActiveBuses" href="#collapseActiveBuses"> 
+                <span class="glyphicon glyphicon-road" aria-hidden="true"></span>&nbsp; ACTIVE BUSES
+            </a>
+          </h3>
+          </div>
+          <div id="collapseActiveBuses" class="panel-collapse collapse in">
+          <div class="panel-body">
+
+            Average : 4324 buses<br>
+            <div id="active-bus-graph"></div>
+          </div>
+          </div>
+        </div>
+        <div class="panel panel-default" style="margin-top:0;">
+          <div class="panel-heading">
+            <h3 class="panel-title">
+            <a data-toggle="collapse" data-target="#collapseSpeed" href="#collapseSpeed" class="collapsed"> 
+            <span class="glyphicon glyphicon-dashboard" aria-hidden="true"></span>&nbsp; SPEED 
+            </a>
+            </h3>
+          </div>
+          <div id="collapseSpeed" class="panel-collapse collapse">
+          <div class="panel-body">
+            Average : 32 mph <br>
+            Slowest 
+              <button type="button" class="btn btn-default btn-xs">B34</button>
+              <button type="button" class="btn btn-default btn-xs">M23</button>
+              <button type="button" class="btn btn-default btn-xs">BX1</button>
+              <br>
+            Fastest 
+              <button type="button" class="btn btn-default btn-xs">B34</button>
+              <button type="button" class="btn btn-default btn-xs">M23</button>
+              <button type="button" class="btn btn-default btn-xs">BX1</button>
+              <br>
+            
+          </div>
+          </div>
+        </div>
+        <div class="panel panel-default" style="margin-top:0;">
+          <div class="panel-heading">
+            <h3 class="panel-title">
+              <a data-toggle="collapse" data-target="#collapseWaitTimes" href="#collapseWaitTimes" class="collapsed"> 
+                <span class="glyphicon glyphicon-time" aria-hidden="true"></span>&nbsp; WAIT TIMES
+              </a>
+            </h3>
+          </div>
+          <div id="collapseWaitTimes" class="panel-collapse collapse">
+          <div class="panel-body">
+            Average : 43 minutes <br> 
+            Longest 
+              <button type="button" class="btn btn-default btn-xs">B34</button>
+              <button type="button" class="btn btn-default btn-xs">M23</button>
+              <button type="button" class="btn btn-default btn-xs">BX1</button>
+              <br>
+            Shortest 
+              <button type="button" class="btn btn-default btn-xs">B34</button>
+              <button type="button" class="btn btn-default btn-xs">M23</button>
+              <button type="button" class="btn btn-default btn-xs">BX1</button>
+          </div>
+          </div>
+        </div>
+        <div class="panel panel-default" style="margin-top:0;">
+          <div class="panel-heading">
+            <h3 class="panel-title">
+              <a data-toggle="collapse" data-target="#collapseCustomize" href="#collapseCustomize" class="collapsed"> 
+                <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>&nbsp; CUSTOMIZE
+              </a>
+            </h3>
+          </div>
+          <div id="collapseCustomize" class="panel-collapse collapse">
+            <div class="panel-body">
+              <form>
+                <div class="form-group">
+                <div class="form-heading">
+                  <label for="busStop" style="font-weight:bold;">BUS STOP</label>
+                  <a data-toggle="collapse" data-target="#collapseBusStop" href="#collapseBusStop" style="float:right;">
+                    <input type="checkbox" checked data-toggle="toggle" data-size="mini">
+                  </a>
+                  </div>
+                  <div id="collapseBusStop" class="input-group-busStop collapse in">
+                    <label><input type="radio" name="busStop" value="waitTimes"> Wait Times</label> <br>
+                    <label><input type="radio" name="busStop" value="busLinesCount"> Bus Lines Count</label> <br>
+                    <label><input type="radio" name="busStop" value="borough"> Borough</label> <br>
+                    <div id="lineLegend">
+                    Faster Wait Time
+                    <div id="lineLegendBox"></div>
+                    <div style="text-align:right;">Slower Wait Time</div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                <div class="form-heading">
+                  <label for="busCluster" style="font-weight:bold;">BUS CLUSTER</label>
+
+                  <a data-toggle="collapse" data-target="#collapseBusCluster" href="#collapseBusCluster" style="float:right;">
+                  <input id="busClusterToggle" type="checkbox" checked data-toggle="toggle" data-size="mini">
+                  </a>
+                </div>
+                  <div id="collapseBusCluster" class="input-group-busCluster collapse in" >
+                    <label><input type="radio" name="busCluster" value="boroughs"> Boroughs</label><br>
+                    <label><input type="radio" name="busCluster" value="neighborhood"> Neighborhood</label><br>
+                    <label><input type="radio" name="busCluster" value="zipCodes"> Zip Codes</label><br>
+                    <div id="lineLegend">
+                    Less Bus
+                    <div id="lineLegendBox"></div>
+                    <div style="text-align:right;">More Bus</div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                <div class="form-heading">
+                  <label for="busLines" style="font-weight:bold;">BUS LINES</label>
+                  <a data-toggle="collapse" data-target="#collapseBusLines" href="#collapseLines" style="float:right;">
+                  <input id="busLinesToggle" type="checkbox" checked data-toggle="toggle" data-size="mini">
+                  </a>
+                </div>
+                  <div id="collapseBusLines" class="input-group-busLines collapse in" >
+                    <label><input type="radio" name="busLines" value="avgSpeed"> Average Speed</label><br>
+                    <label><input type="radio" name="busLines" value="busStops"> No. Of Bus Stops</label><br>
+                    <div id="lineLegend">
+                    Fastest
+                    <div id="lineLegendBox"></div>
+                    <div style="text-align:right;">Slowest</div>
+                    </div>
+                    </div>
+                  </div>
+                </div>
+
+
+
+              </form>
+            </div>
+          </div>
+        </div>    
+        <div id="copyright">&copy; NYU CUSP BusVis Team 2015</div>
+      </div>
+
+
+    
+    </div>
 
     <div id ="panelContent">
+    <!--
+      <a class="navbar-brand" href="#">
+            <div id="title-panel">
+              NYC
+            <span class="light">BUSVIZ</span>
+            </div>
+          </a>
+    -->
       <div class="input-group" style="height:20px; margin-bottom:10px;">
         <input id="searchBus" type="text" class="form-control" data-provide="typeahead" placeholder="Search for bus stop ...">
         <span class="input-group-btn">
-          <button id="searchBusButton" class="btn btn-default" type="button">Go!</button>
+          <button id="searchBusButton" class="btn btn-default" type="button"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
         </span>
       </div><!-- /input-group -->
 
@@ -51,40 +212,15 @@
       </div>
       <br>
 <!--
-      <form>
-        <div class="form-group">
-          <label for="busStop">Bus Stop</label>
-          <div class="input-group">
-            <label><input type="radio"> Wait Times</label> <br>
-            <label><input type="radio"> Bus Lines Count</label> <br>
-            <label><input type="radio"> Borough</label> <br>
-          </div>
-        </div>
-        <div class="form-group">
-          <label for="busLines">Bus Lines</label>
-          <div class="input-group">
-            <label><input type="radio"> Average Speed</label><br>
-            <label><input type="radio"> No. Of Bus Stops</label><br>
-          </div>
-        </div>
-        <div class="form-group">
-          <label for="busLines">Bus Clusters</label>
-          <div class="input-group">
-            <label><input type="radio"> Boroughs</label><br>
-            <label><input type="radio"> Neighborhood</label><br>
-            <label><input type="radio"> Zip Codes</label><br>
-          </div>
-        </div>
-      </form>
+
       -->
 
     </div>
 
 
-
+<!--
     <nav class="navbar navbar-default navbar-fixed-bottom">
       <div class="container">
-        <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
           <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#myNavmenu">
             <span class="sr-only">Toggle navigation</span>
@@ -100,15 +236,15 @@
           </a>
         </div>
 
-        <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
           <ul class="nav navbar-nav">
             <li class="active"><a href="#">About <span class="sr-only">(current)</span></a></li>
             <li><a href="#">Members</a></li>
           </ul>
-        </div><!-- /.navbar-collapse -->
+        </div>
       </div>
     </nav>
+    -->
 
     <!-- ON-DEMAND SIDEBAR -->
     <nav id="myNavmenu" class="navmenu navmenu-inverse navmenu-fixed-right offcanvas" role="navigation" style="padding:10px">
@@ -123,8 +259,10 @@
     <script src='https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-omnivore/v0.2.0/leaflet-omnivore.min.js'></script>
     <script src='https://api.tiles.mapbox.com/mapbox.js/v2.1.8/mapbox.js'></script>
     <script src='https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-markercluster/v0.4.0/leaflet.markercluster.js'></script>
+    <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.0/js/bootstrap-toggle.min.js"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='js/busdata.js') }}"> </script>
     <script type="text/javascript" src="{{ url_for('static', filename='js/map.js') }}"> </script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/dashboard.js') }}"> </script>
     <script src="{{ url_for('static', filename='bootstrap/js/typeahead.js') }}" charset="UTF-8"></script>
     <script src="{{ url_for('static', filename='bootstrap/js/bootstrap.min.js') }}"></script>
     <script src="{{ url_for('static', filename='bootstrap/js/bootstrap-datepicker.js') }}" charset="UTF-8"></script>

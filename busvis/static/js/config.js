@@ -12,6 +12,7 @@ var env = "prod";
 ******************************************************/
 
 var file_bus_stop_descriptions = "/static/busroute/bus_stop_descriptions.csv";
+var file_active_bus = "/static/dummy/active_bus_graph.csv";
 
 
 /******************************************************

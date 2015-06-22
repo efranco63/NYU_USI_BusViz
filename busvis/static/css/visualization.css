@@ -13,9 +13,36 @@
 .axis text {
   font-family: sans-serif;
   font-size: 10px;
-  fill: white;
+  fill: #888888;
 }
 
+path { 
+    stroke: #2360a5;
+    stroke-width: 2;
+    fill: none;
+}
+
+.axis path,
+.axis line {
+    fill: none;
+    stroke: grey;
+    stroke-width: 1;
+    shape-rendering: crispEdges;
+}
+
+.overlay {
+  fill: none;
+  pointer-events: all;
+}
+
+.text-overlay{
+  color:#888888;
+}
+
+.focus circle {
+  fill: none;
+  stroke: #888888;
+}
 
 
 /******************************************************
