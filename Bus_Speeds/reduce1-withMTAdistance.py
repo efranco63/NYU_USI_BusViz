@@ -33,6 +33,7 @@ def main():
         route = key[2]
         time_stamp = datetime.strptime(key[3],'%Y-%m-%d %H:%M:%S')
         distance = key[4]
+        status = key[5]
         stop = values[4:]
 
         if route == 'MTA NYCT_B38' and direction == '0':
@@ -46,8 +47,8 @@ def main():
                         delta_distance = float(start_distance) - float(end_distance)
                         if delta_time != 0 and delta_distance > 0:
                             print "%s|%s|%s\t%s\t%s\t" % (prior_route, prior_stop, prior_dir, str(delta_time), str(delta_distance))
-                            #print "%s|%s|%s\t%s\t%s\t%s,%s" % (prior_route, prior_stop, prior_dir, str(delta_time), str(delta_distance),\
-                            #                              start_point.strftime("%Y-%m-%d %H:%M:%S"), end_point.strftime("%Y-%m-%d %H:%M:%S"))
+                            #print "%s|%s|%s\t%s\t%s\t%s,%s,%s" % (prior_route, prior_stop, prior_dir, str(delta_time), str(delta_distance),\
+                            #                              start_point.strftime("%Y-%m-%d %H:%M:%S"), end_point.strftime("%Y-%m-%d %H:%M:%S"), status)
                     start_point = time_stamp
                     start_distance = distance
                 else:

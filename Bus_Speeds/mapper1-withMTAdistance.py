@@ -22,10 +22,13 @@ def main():
         time_stamp = row[2]
         busid = row[3]        
         direction = row[5]
+        status = row[6]
         route = row[7]
         distance = row[9]
         stop = row[10]
-        print '%s|%s|%s|%s|%s\t%s' % (busid,direction,route,time_stamp,distance, stop)
+        #if status == 'IN_PROGRESS':
+        #    print '%s|%s|%s|%s|%s|%s\t%s' % (busid,direction,route,time_stamp,distance,status, stop)
+        print '%s|%s|%s|%s|%s|%s\t%s' % (busid,direction,route,time_stamp,distance,status, stop)
 
 if __name__ == "__main__":
     main()
