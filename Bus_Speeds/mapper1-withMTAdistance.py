@@ -26,9 +26,9 @@ def main():
         route = row[7]
         distance = row[9]
         stop = row[10]
-        #if status == 'IN_PROGRESS':
-        #    print '%s|%s|%s|%s|%s|%s\t%s' % (busid,direction,route,time_stamp,distance,status, stop)
-        print '%s|%s|%s|%s|%s|%s\t%s' % (busid,direction,route,time_stamp,distance,status, stop)
+        if status == 'IN_PROGRESS':
+            print '%s|%s|%s|%s|%s|%s\t%s' % (busid,direction,route,time_stamp,distance,status, stop)
+        #print '%s|%s|%s|%s|%s|%s\t%s' % (busid,direction,route,time_stamp,distance,status, stop)
 
 if __name__ == "__main__":
     main()
