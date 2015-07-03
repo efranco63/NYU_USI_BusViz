@@ -8,6 +8,7 @@
 
 import sys
 from datetime import datetime
+import math 
 
 def main():
 
@@ -42,12 +43,14 @@ def main():
                 if start_point != None:
                     end_point = prior_time
                     end_distance = prior_distance
-                    delta_time = (end_point-start_point).total_seconds()
-                    delta_distance = float(start_distance) - float(end_distance)
-                    if delta_time != 0 and delta_distance > 0:
-                        print "%s|%s|%s\t%s\t%s\t" % (prior_route, prior_stop, prior_dir, str(delta_time/3600), str(delta_distance/1000))
-                            #print "%s|%s|%s\t%s\t%s\t%s,%s,%s" % (prior_route, prior_stop, prior_dir, str(delta_time), str(delta_distance),\
-                            #                              start_point.strftime("%Y-%m-%d %H:%M:%S"), end_point.strftime("%Y-%m-%d %H:%M:%S"), status)
+                    delta_time = ((end_point-start_point).total_seconds())/3600
+                    delta_distance = (float(start_distance) - float(end_distance))/1000
+                    #delta_time = math.ceil(delta_time*100)/100
+                    #delta_distance = math.ceil(delta_distance*100)/100
+                    if delta_time > 0 and delta_distance > 0 and delta_time < 1:
+                       print "%s|%s|%s\t%s\t%s\t" % (prior_route, prior_stop, prior_dir, str(delta_time), str(delta_distance))
+                       #print "%s|%s|%s\t%s\t%s\t%s,%s,%s" % (prior_route, prior_stop, prior_dir, str(delta_time), str(delta_distance),\
+                       #                                   start_point.strftime("%Y-%m-%d %H:%M:%S"), end_point.strftime("%Y-%m-%d %H:%M:%S"), status)
                 start_point = time_stamp
                 start_distance = distance
             else:
