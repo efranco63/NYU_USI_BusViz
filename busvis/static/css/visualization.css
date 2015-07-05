@@ -17,7 +17,7 @@
 }
 
 path { 
-    stroke: #2360a5;
+    /**stroke: #2360a5;**/
     stroke-width: 2;
     fill: none;
 }
