@@ -7,15 +7,12 @@ function cleanLineNames(busLines){
     //output string of bus names
     var lines = [];
 
-
     busLines = busLines.replace("[","");
     busLines = busLines.replace("]","");
     busLines = replaceAll("'","",busLines)
     busLines = replaceAll(" ","",busLines)
     lines = busLines.split(",");
             
-
-
     return lines;
 }
 
@@ -28,18 +25,16 @@ var map = L.mapbox.map('map-canvas', '', { zoomControl: false })
 
 new L.Control.Zoom({ position: 'topright' }).addTo(map);
 
-var bus_stops_id = [] //to be used in search box autocomplete
-var bus_stops_name = [] //to be used in search box autocomplete
+var search_value_list = [] //to be used in search box autocomplete
 
-var bus_stops = omnivore.csv(file_bus_stop_descriptions)
+var bus_stops = omnivore.csv(bus_stop_file)
     .on('ready', function(e) {
 
         document.getElementById('searchBusButton').onclick = clickButton;
 
         this.eachLayer(function(marker) {
-            if (bus_stops_id.indexOf(marker.toGeoJSON().properties.stop_id) == -1) { //not exist in array
-                bus_stops_id.push(marker.toGeoJSON().properties.stop_id);
-                bus_stops_name.push(marker.toGeoJSON().properties.stop_name);
+            if (search_value_list.indexOf(marker.toGeoJSON().properties.stop_name) == -1) { //not exist in array
+                search_value_list.push(marker.toGeoJSON().properties.stop_name);
             } 
             
             /** Cleaning the bus lines name, stores the name into array **/
@@ -70,7 +65,7 @@ var bus_stops = omnivore.csv(file_bus_stop_descriptions)
         e.target.eachLayer(function(layer) {
             clusterGroup.addLayer(layer);
         });
-        map.addLayer(clusterGroup);
+        //map.addLayer(clusterGroup);
 
     })
     //.addTo(map);
@@ -85,20 +80,46 @@ var myStyle = {
             style: myStyle
         }).addTo(map*/
 
-var busLines = L.geoJson(buses_all, {
+var bus_line = L.geoJson(bus_line_file, {
         style: function(feature) {
-        return {color: feature.properties.route_color};
-    }
-})
+            return { color: feature.properties.route_color }
+        },
+        onEachFeature: function (feature, layer) {
+            layer.bindPopup(
+              '<h1 style="color:#000000;">'
+              +feature.properties.route_short
+              +'</h1><p class="light" style="color:#000000;">Route  : '
+              +feature.properties.route_long
+              +'</p>'
+            );
 
-busLines.setStyle(myStyle);
-//busLines.addTo(map);
+            if (search_value_list.indexOf(feature.properties.route_short) == -1) { //not exist in array
+                search_value_list.push(feature.properties.route_short);
+            }
+
+            layer.on('click',function(){
+                var route_id = feature.properties.route_short;
+                clickBusLine(route_id);
+            }); 
+        }
+    })
+
+bus_line.setStyle(myStyle);
+
+bus_line.addTo(map);
 
 
 bus_stops.on('mouseover', function(e) {
     e.layer.openPopup();
 });
 bus_stops.on('mouseout', function(e) {
+    e.layer.closePopup();
+});
+
+bus_line.on('mouseover', function(e) {
+    e.layer.openPopup();
+});
+bus_line.on('mouseout', function(e) {
     e.layer.closePopup();
 });
 
@@ -115,14 +136,12 @@ function clickButton() {
             d3.select("#busstop_histogram").selectAll("svg").remove();
             d3.select("#busstop_histogram").selectAll("h6").remove();
 
-            var lng = marker.feature.geometry.coordinates[0]+0.005;
+            var lng = marker.feature.geometry.coordinates[0];
             var lat = marker.feature.geometry.coordinates[1];
             lines = cleanLineNames(marker.feature.properties.bus_lines);
             var stop_id = marker.feature.properties.stop_id;
 
-            map.setView([lat, lng], 17);
-
-
+            map.setView([lat, lng], 19);
 
             // call server script to load JSON with wait times for this stop_id
             // draw histogram(s)
@@ -152,8 +171,32 @@ function clickButton() {
 
 }
 
+function clickBusLine (route_id_input){
+
+    bus_line.eachLayer(function(marker) {
+        if (marker.toGeoJSON().properties.route_short == route_id_input) {
+                $('#myNavmenu').offcanvas('show');
+
+                marker.openPopup();
+
+                var route_id = marker.toGeoJSON().properties.route_short;
+                var route_name = marker.toGeoJSON().properties.route_long;
+
+                //get bus route color from data/busroute_color.csv
+                d3.select("#myNavmenu").select("h2").text(route_name);
+                d3.select("#myNavmenu").select("h4").text("Route ID : " + route_id)
+                                                    .style({'color': 'white'});
+                  
+                $('#myNavmenu').offcanvas();
+
+        }
+    });
+
+}
+
+
 function drawBusLine(route_id){
-    busLines.eachLayer(function(marker) {
+    bus_line.eachLayer(function(marker) {
         if (marker.toGeoJSON().properties.route_id == route_id) {
             marker.addTo(map)
         }
@@ -174,11 +217,11 @@ bus_stops.on('click', function(e) {
 
     var stop_id = e.layer.feature.properties.stop_id;
     var stop_name = e.layer.feature.properties.stop_name;
-    var lng = e.layer.feature.geometry.coordinates[0]+0.005;
+    var lng = e.layer.feature.geometry.coordinates[0];
     var lat = e.layer.feature.geometry.coordinates[1];
     var lines = cleanLineNames(e.layer.feature.properties.bus_lines);
-    //map.setView([lat, lng], map.getZoom());
-    map.setView([lat, lng], 17);
+    map.setView([lat, lng], map.getZoom());
+    //map.setView([lat, lng], 19);
         
     // call server script to load JSON with wait times for this stop_id
     // draw histogram(s)
@@ -204,6 +247,7 @@ bus_stops.on('click', function(e) {
     }
 
 });
+
 
 $( document ).ready(function() {
     //$('#myNavmenu').offcanvas();

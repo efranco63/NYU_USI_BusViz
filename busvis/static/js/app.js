@@ -1,7 +1,13 @@
 $('#datepicker').datepicker({
   });
 
-$("#searchBus").typeahead({source:bus_stops_name});
+$("#searchBus").typeahead({source:search_value_list});
+
+
+$('#busClusterToggle').bootstrapToggle();
+$('#busClusterToggle').change(function() {
+	//alert($(this).prop('checked'));
+})
 
 /*
 $("#searchBus").keyup(function(event){
