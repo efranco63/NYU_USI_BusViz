@@ -7,6 +7,7 @@
   <!-- HEADER START -->
   <head>
     <!--<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBKMxUK5yzz0XnMa1FLB2GDvbrdnaEY5vQ"></script>-->
+    <script type="text/javascript" src="{{ url_for('static', filename='js/busdata.js') }}"> </script>
     <script type="text/javascript" src="{{ url_for('static', filename='js/config.js') }}"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='js/d3/d3.js') }}"></script>
@@ -17,6 +18,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap/css/bootstrap-datepicker3.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='jasny/css/jasny-bootstrap.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/visualization.css') }}">  
+    <link rel="stylesheet" href="{{ url_for('static', filename='pace/pace.css') }}">  
     <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}"> 
     <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.0/css/bootstrap-toggle.min.css" rel="stylesheet">
 
@@ -260,13 +262,14 @@
     <script src='https://api.tiles.mapbox.com/mapbox.js/v2.1.8/mapbox.js'></script>
     <script src='https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-markercluster/v0.4.0/leaflet.markercluster.js'></script>
     <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.0/js/bootstrap-toggle.min.js"></script>
-    <script type="text/javascript" src="{{ url_for('static', filename='js/busdata.js') }}"> </script>
+
     <script type="text/javascript" src="{{ url_for('static', filename='js/map.js') }}"> </script>
     <script type="text/javascript" src="{{ url_for('static', filename='js/dashboard.js') }}"> </script>
     <script src="{{ url_for('static', filename='bootstrap/js/typeahead.js') }}" charset="UTF-8"></script>
     <script src="{{ url_for('static', filename='bootstrap/js/bootstrap.min.js') }}"></script>
     <script src="{{ url_for('static', filename='bootstrap/js/bootstrap-datepicker.js') }}" charset="UTF-8"></script>
     <script src="{{ url_for('static', filename='jasny/js/jasny-bootstrap.js') }}" charset="UTF-8"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='pace/pace.min.js') }}"> </script>
     <script type="text/javascript" src="{{ url_for('static', filename='js/app.js') }}"> </script>
 
 
