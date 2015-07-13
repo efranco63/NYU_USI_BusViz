@@ -9,7 +9,8 @@
 import json
 
 # parameters
-json_filename = 'data/0804.json'
+# json_filename = 'data/0804.json'						# includes all bus stops for Aug 4
+json_filename = 'data/2014-08-04-MTA_100027.json'		# only one bus stop, but incl night/daytimes
 
 def loadJson():
     with open(json_filename) as f:

@@ -19,23 +19,44 @@ app = Flask(__name__)
 @app.route('/_get_waittimes')
 def get_waittimes():
 	stop_id = request.args.get('stop_id', '', type=str)
-	stop_id = "MTA_" + str(stop_id)		# stop_id = "MTA_803008"
+	date_stop_id_key = "2014-08-04-" + str(stop_id)		# stop_id = "803008"
 
-	## Testing reading file from stop id
-
-	#	import read_1day_json 
-	# stop_id_json = read_1day_json.readStopId(stop_id)
-	# # print stop_id_json
-	# return jsonify(stop_id_json)
-	# testing redis 
+	# query data from redis DB
 	import redis
 	import ast 
 
-	pool = redis.ConnectionPool(host='localhost', port=6379, db=0)
+	# ___________________________________________________
+	# SPRINT 3: OLD: query redis data from database 0 for waittimes of Aug 4, 2014
+	#pool = redis.ConnectionPool(host='localhost', port=6379, db=0)
+	# pool = redis.ConnectionPool(host='busvis.cloudapp.net', port=6379, db=0)
+	# r = redis.Redis(connection_pool=pool)
+	# stop_id_json=r.hget('stopid',stop_id)
+	# stop_id_json = ast.literal_eval(str(stop_id_json))
+	# return jsonify(stop_id_json)
+
+	# ___________________________________________________
+	# SPRINT 4: query redis data from database 9 (Ed)
+	# where date+stop are key, route the field, and times the values
+	#pool = redis.ConnectionPool(host='localhost', port=6379, db=9)
+	pool = redis.ConnectionPool(host='busvis.cloudapp.net', port=6379, db=9)
 	r = redis.Redis(connection_pool=pool)
-	stop_id_json=r.hget('stopid',stop_id)
-	stop_id_json = ast.literal_eval(str(stop_id_json))
-	return jsonify(stop_id_json)
+	#print "date_stop_id_key: ", str(date_stop_id_key)
+	date_stop_id_json=r.hgetall(date_stop_id_key)
+
+	import prepare_stop_id_json_for_histogram
+	# transform from 2014-08-04-MTA_100027.json to 2014-08-04-MTA_100027_transformed.json
+	date_stop_id_json_js = prepare_stop_id_json_for_histogram.transformJsonForJs(date_stop_id_json)
+
+	return jsonify(date_stop_id_json_js)
+
+	# ___________________________________________________
+	# SPRINT 5: query redis DB for bus route speed from database 10 (Jiamin)
+	# pool = redis.ConnectionPool(host='busvis.cloudapp.net', port=6379, db=10)
+	# r = redis.Redis(connection_pool=pool)
+	# busroute = r.hget('length_speed','MTA NYCT_B38')
+	# print "-------- RP: bus routes ------------"
+	# print busroute
+	# return jsonify(stop_id_json)
 
 
 @app.route('/')

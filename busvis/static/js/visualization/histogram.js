@@ -3,14 +3,36 @@
   VISUALIZATIONS Histogram
 ******************************************************/
 
-
-function makeHistogram(dataset, title, timeunit) {
+function makeHistograms(dataset, title, timeunit) {
   if (title === undefined) { title = ""; }
   if (timeunit === undefined) { timeunit = "min"; } 
 
-  var values = dataset.maxtimes
+  // console.log("RP: inside makeHistograms, dataset:", dataset);
 
-  // console.log("RP: inside makeHistogram, values:", values);
+  // OLD: var values = dataset.maxtimes
+  // NEW: no max/mintimes any more -> select values per time bin: 0, 1, 2
+  var values = dataset["0"];
+
+  $.each(dataset, function(key, value) {
+    // console.log("RP: " + key + ": " + value );
+    title = title + " Timeslot " + key;
+    if(key == "0") {
+      title = title + " (0-7am)";
+    } else if(key == "1") {
+      title = title + " (7am-7pm)";
+    } else {
+      title = title + " (7-12pm)";
+    }
+    drawSingleHistogram(value, title, timeunit);
+    title = "";
+  });
+
+}
+
+
+function drawSingleHistogram(values, title, timeunit) {
+
+  // console.log("RP: inside drawSingleHistogram, values:", values);
 
   // in case values are in seconds tranform to minutes
   if (timeunit === "sec") {

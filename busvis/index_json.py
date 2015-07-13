@@ -24,9 +24,16 @@ def get_waittimes():
 	## Testing reading file from stop id
 
 	import read_1day_json 
-	stop_id_json = read_1day_json.readStopId(stop_id)
+	stop_id_json = read_1day_json.loadJson()
 	# print stop_id_json
-	return jsonify(stop_id_json)
+
+	import prepare_stop_id_json_for_histogram
+	# transform from 2014-08-04-MTA_100027.json to 2014-08-04-MTA_100027_transformed.json
+	stop_id_json_js = prepare_stop_id_json_for_histogram.transformJsonForJs(stop_id_json)
+
+	return jsonify(stop_id_json_js)
+
+
 	# #	testing redis 
 	# import redis
 	# pool = redis.ConnectionPool(host='localhost', port=6379, db=0)
@@ -72,9 +79,9 @@ def index():
 
 if __name__ == '__main__':
 	## prod server:
-    app.run(host='0.0.0.0', port=5000, debug = True)
+    #app.run(host='0.0.0.0', port=5000, debug = True)
 
     ## localhost
-    #app.run(port=5000, debug = True)
+    app.run(port=5000, debug = True)
 
 
