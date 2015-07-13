@@ -1,0 +1,15 @@
+service_id,date,exception_type
+EN_C4-Weekday,20140704,2
+EN_C4-Saturday,20140704,1
+FB_C4-Weekday,20140704,2
+FB_C4-Saturday,20140704,1
+FP_C4-Weekday,20140704,2
+FP_C4-Saturday,20140704,1
+GA_C4-Weekday,20140704,2
+GA_C4-Saturday,20140704,1
+JG_C4-Weekday,20140704,2
+JG_C4-Weekday-BM,20140703,2
+JG_C4-Saturday,20140704,1
+JG_C4-Saturday-BM,20140703,1
+UP_C4-Weekday,20140704,2
+UP_C4-Saturday,20140704,1
