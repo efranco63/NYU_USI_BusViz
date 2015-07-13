@@ -8,15 +8,19 @@
   <head>
     <!--<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBKMxUK5yzz0XnMa1FLB2GDvbrdnaEY5vQ"></script>-->
     <script type="text/javascript" src="{{ url_for('static', filename='js/busdata.js') }}"> </script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/bus_route_speed.js') }}"> </script>
     <script type="text/javascript" src="{{ url_for('static', filename='js/config.js') }}"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='subwaymap/subwaymap.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='js/d3/d3.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='colorbrewer/colorbrewer.js') }}"></script>
     <link href='https://api.tiles.mapbox.com/mapbox.js/v2.1.8/mapbox.css' rel='stylesheet' />
     <link href='https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-markercluster/v0.4.0/MarkerCluster.css' rel='stylesheet' />
     <link href='https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-markercluster/v0.4.0/MarkerCluster.Default.css' rel='stylesheet' />
     <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap/css/bootstrapcyborg.min.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap/css/bootstrap-datepicker3.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='jasny/css/jasny-bootstrap.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='colorbrewer/colorbrewer.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/visualization.css') }}">  
     <link rel="stylesheet" href="{{ url_for('static', filename='pace/pace.css') }}">  
     <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}"> 
@@ -25,6 +29,7 @@
     <!-- VISUALISATION JS -->
     <script type="text/javascript" src="{{ url_for('static', filename='js/visualization/busroute_color.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='js/visualization/histogram.js') }}"></script>
+
 
     <script type=text/javascript>
       $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
@@ -123,7 +128,7 @@
                 <div class="form-group">
                 <div class="form-heading">
                   <label for="busStop" style="font-weight:bold;">BUS STOP</label>
-                  <a data-toggle="collapse" data-target="#collapseBusStop" href="#collapseBusStop" style="float:right;">
+                  <a data-toggle="collapse" data-target="#collapseBusStop" href="#collapseBusStop" style="float:right;" onClick="busStopToggleClick()">
                     <input type="checkbox" checked data-toggle="toggle" data-size="mini">
                   </a>
                   </div>
@@ -143,8 +148,8 @@
                 <div class="form-heading">
                   <label for="busCluster" style="font-weight:bold;">BUS CLUSTER</label>
 
-                  <a data-toggle="collapse" data-target="#collapseBusCluster" href="#collapseBusCluster" style="float:right;">
-                  <input id="busClusterToggle" type="checkbox" checked data-toggle="toggle" data-size="mini">
+                  <a data-toggle="collapse" data-target="#collapseBusCluster" href="#collapseBusCluster" onClick="busClusterToggleClick()" style="float:right;">
+                    <input id="busClusterToggle" type="checkbox" checked data-toggle="toggle" data-size="mini">
                   </a>
                 </div>
                   <div id="collapseBusCluster" class="input-group-busCluster collapse in" >
@@ -162,7 +167,7 @@
                 <div class="form-group">
                 <div class="form-heading">
                   <label for="busLines" style="font-weight:bold;">BUS LINES</label>
-                  <a data-toggle="collapse" data-target="#collapseBusLines" href="#collapseLines" style="float:right;">
+                  <a data-toggle="collapse" data-target="#collapseBusLines" href="#collapseLines" style="float:right;" onClick="busLineToggleClick()">
                   <input id="busLinesToggle" type="checkbox" checked data-toggle="toggle" data-size="mini">
                   </a>
                 </div>
@@ -249,7 +254,7 @@
     -->
 
     <!-- ON-DEMAND SIDEBAR -->
-    <nav id="myNavmenu" class="navmenu navmenu-inverse navmenu-fixed-right offcanvas" role="navigation" style="padding:10px">
+    <nav id="bus_stop_sidebar" class="navmenu navmenu-inverse navmenu-fixed-right offcanvas" role="navigation" style="padding:10px">
       <!-- D3 filled content -->
       <h2>Bus Stop Name</h2>
       <h4>Bus Stop ID</h4>
@@ -257,10 +262,60 @@
       <div id="busstop_histogram">Distribution of waiting times (max)<div>
     </nav>
 
+    <nav id="bus_line_sidebar" class="navmenu navmenu-inverse navmenu-fixed-right offcanvas" role="navigation" style="padding:10px">
+      <!-- D3 filled content -->
+      <h2>Bus Stop Name</h2>
+      <h4>Bus Stop ID</h4>
+      <!-- D3 generated histogram -->
+      <div class="subway-map" data-columns='20' data-rows='30' data-cellSize='34' data-legendId='legend' data-textClass='stopLabel' data-gridnumbers="true" data-grid="false" data-lineWidth='8'>
+      <ul data-color='#006837' data-label='jQuery Widgets'>
+        <li data-coords='8,2' data-labelPos='SE' data-marker="interchange">&nbsp;&nbsp;&nbsp;Stop A</li>
+        <li data-coords='8,6' data-labelPos='NW'>&nbsp;&nbsp;&nbsp;40 mph</li>
+      </ul>
+      <ul data-color='#f46d43' data-label='jQuery Widgets'>
+        <li data-coords='8,6' data-labelPos='SE'>&nbsp;&nbsp;&nbsp;Stop B</li>
+        <li data-coords='8,7' data-labelPos='W'>&nbsp;&nbsp;&nbsp;21 mph</li>
+      </ul>
+      <ul data-color='#ffffbf' data-label='jQuery Widgets'>
+        <li data-coords='8,7' data-labelPos='SE'>&nbsp;&nbsp;&nbsp;Stop C</li>
+        <li data-coords='8,10' data-labelPos='W'>&nbsp;&nbsp;&nbsp;8 mph</li>
+      </ul>
+      <ul data-color='#66bd63' data-label='jQuery Widgets'>
+        <li data-coords='8,10' data-labelPos='SE'>&nbsp;&nbsp;&nbsp;Stop D</li>
+        <li data-coords='8,11' data-labelPos='W'>&nbsp;&nbsp;&nbsp;30 mph</li>
+      </ul>
+      <ul data-color='#f46d43' data-label='jQuery Widgets'>
+        <li data-coords='8,11' data-labelPos='SE'>&nbsp;&nbsp;&nbsp;Stop E</li>
+        <li data-coords='8,12' data-labelPos='W'>&nbsp;&nbsp;&nbsp;5 mph</li>
+      </ul>
+      <ul data-color='#1a9850' data-label='jQuery Widgets'>
+        <li data-coords='8,12' data-labelPos='SE'>&nbsp;&nbsp;&nbsp;Stop F</li>
+        <li data-coords='8,15' data-labelPos='W'>&nbsp;&nbsp;&nbsp;28 mph</li>
+      </ul>
+      <ul data-color='#a50026' data-label='jQuery Widgets'>
+        <li data-coords='8,15' data-labelPos='SE'>&nbsp;&nbsp;&nbsp;Stop G</li>
+        <li data-coords='8,16' data-labelPos='W'>&nbsp;&nbsp;&nbsp;2 mph</li>
+      </ul>
+      <ul data-color='#006837' data-label='jQuery Widgets'>
+        <li data-coords='8,16' data-labelPos='SE'>&nbsp;&nbsp;&nbsp;Stop H</li>
+         <li data-coords='8,20' data-labelPos='W'>&nbsp;&nbsp;&nbsp;28 mph</li>
+      </ul>
+      <ul data-color='#fee08b' data-label='jQuery Widgets'>
+        <li data-coords='8,20' data-labelPos='SE'>&nbsp;&nbsp;&nbsp;Stop I</li>
+        <li data-coords='8,22' data-labelPos='W'>&nbsp;&nbsp;&nbsp;17 mph</li>
+      </ul>
+      <ul data-color='#006837' data-label='jQuery Widgets'>
+        <li data-coords='8,22' data-labelPos='SE'>&nbsp;&nbsp;&nbsp;Stop K</li>
+        <li data-coords='8,24' data-labelPos='W' data-marker="interchange">&nbsp;&nbsp;&nbsp;35 mph</li>
+      </ul>
+      </div>
+    </nav>
+
 
     <script src='https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-omnivore/v0.2.0/leaflet-omnivore.min.js'></script>
     <script src='https://api.tiles.mapbox.com/mapbox.js/v2.1.8/mapbox.js'></script>
     <script src='https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-markercluster/v0.4.0/leaflet.markercluster.js'></script>
+
     <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.0/js/bootstrap-toggle.min.js"></script>
 
     <script type="text/javascript" src="{{ url_for('static', filename='js/map.js') }}"> </script>
@@ -271,6 +326,7 @@
     <script src="{{ url_for('static', filename='jasny/js/jasny-bootstrap.js') }}" charset="UTF-8"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='pace/pace.min.js') }}"> </script>
     <script type="text/javascript" src="{{ url_for('static', filename='js/app.js') }}"> </script>
+        <script type="text/javascript" src="{{ url_for('static', filename='js/visualization/busline_viz.js') }}"></script>
 
 
   </body>

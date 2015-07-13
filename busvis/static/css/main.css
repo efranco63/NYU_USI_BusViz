@@ -83,19 +83,36 @@ h4, .h4{
 	overflow: hidden;
 }
 
-#myNavmenu{
+#bus_stop_sidebar{
 	padding : 20px;
 	width:40%;
 }
 
-#myNavmenu h2{
+#bus_stop_sidebar h2{
 	color : #2360a5;
 	text-align : center;
 }
 
-#myNavmenu h4{
+#bus_stop_sidebar h4{
 	text-align : center;
 }
+
+
+#bus_line_sidebar{
+	padding : 20px;
+	width:40%;
+}
+
+#bus_line_sidebar h2{
+	color : #2360a5;
+	text-align : center;
+}
+
+#bus_line_sidebar h4{
+	text-align : center;
+}
+
+
 
 .navbar-brand{
 	float:none;
@@ -157,5 +174,9 @@ padding-right:10%;
 	text-align:center;
 }
 
+.stopLabel{
+	color:#ffffff;
+	padding-top:30px;
+}
 
 

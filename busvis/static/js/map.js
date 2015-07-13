@@ -20,12 +20,46 @@ L.mapbox.accessToken = 'pk.eyJ1Ijoia2VubnlhenJpbmEiLCJhIjoidUY3OFkxVSJ9.5wxiS6D6
 
 //load busroute
 var map = L.mapbox.map('map-canvas', '', { zoomControl: false })
-    .setView([40.725497, -73.844016], mapboxZoomLevel)
+    .setView([40.655230, -73.955872], mapboxZoomLevel)
     .addLayer(L.mapbox.tileLayer('kennyazrina.lpg413d8'));
 
 new L.Control.Zoom({ position: 'topright' }).addTo(map);
 
-var search_value_list = [] //to be used in search box autocomplete
+var search_value_list = [] //to be used in search box autocomplete, bus stop name and bus line id
+var bus_stop_name_list = []
+var bus_line_id_list = []
+
+var max_speed = 0; //mph
+var min_speed = 999; //mph
+var all_speed = [];
+
+
+//CLUSTER GROUPS
+var cluster_group_default = new L.MarkerClusterGroup({disableClusteringAtZoom:16});
+var cluster_group_zipcode = new L.MarkerClusterGroup();
+var cluster_group_borough = new L.MarkerClusterGroup();
+var cluster_group_tract = new L.MarkerClusterGroup();
+var cluster_group_school = new L.MarkerClusterGroup();
+var cluster_group_block = new L.MarkerClusterGroup();
+
+
+//FLAGS
+var bus_stop_flag = true;
+var bus_line_flag = true;
+var cluster_group_default_flag = true;
+var cluster_group_zipcode_flag = false;
+var cluster_group_borough_flag = false;
+var cluster_group_tract_flag = false;
+var cluster_group_school_flag = false;
+var cluster_group_block_flag = false;
+
+var circleIcon = L.divIcon({
+  // Specify a class name we can refer to in CSS.
+  className: 'circle-icon',
+  // Set marker width and height
+  iconSize: [10, 10]
+});
+
 
 var bus_stops = omnivore.csv(bus_stop_file)
     .on('ready', function(e) {
@@ -33,8 +67,11 @@ var bus_stops = omnivore.csv(bus_stop_file)
         document.getElementById('searchBusButton').onclick = clickButton;
 
         this.eachLayer(function(marker) {
+
+
             if (search_value_list.indexOf(marker.toGeoJSON().properties.stop_name) == -1) { //not exist in array
                 search_value_list.push(marker.toGeoJSON().properties.stop_name);
+                bus_stop_name_list.push(marker.toGeoJSON().properties.stop_name);
             } 
             
             /** Cleaning the bus lines name, stores the name into array **/
@@ -46,65 +83,141 @@ var bus_stops = omnivore.csv(bus_stop_file)
             linesLabel = linesLabel.substr(0,linesLabel.length-2);
         
 
-            marker.setIcon(L.mapbox.marker.icon({
-                    'marker-color': mapMarkerColor,
-                    'marker-size': 'large',
-                    'marker-symbol': 'bus'
-                }));
+            marker.setIcon(circleIcon);
 
             marker.bindPopup(
               '<h1 style="color:#000000;">'
               +marker.toGeoJSON().properties.stop_name 
               +'</h1><p class="light" style="color:#000000;">Bus Lines : '
               +linesLabel
-              +'</p>'
+              +'</p><p class="light" style="color:#000000;">Borough : '
+              +marker.toGeoJSON().properties.BoroName
+              +'</p><p class="light" style="color:#000000;">Zip Code : '
+              +marker.toGeoJSON().properties.POSTAL
+              +'</p><p class="light" style="color:#000000;">Census Block : '
+              +marker.toGeoJSON().properties.CB2010
+              +'</p><p class="light" style="color:#000000;">Census Tract : '
+              +marker.toGeoJSON().properties.CT2010
+              +'</p><p class="light" style="color:#000000;">School District: '
+              +marker.toGeoJSON().properties.SchoolDist
             );
         });
 
-        var clusterGroup = new L.MarkerClusterGroup();
+        
+
+
         e.target.eachLayer(function(layer) {
-            clusterGroup.addLayer(layer);
+            cluster_group_default.addLayer(layer);
+            //TO-DO : DISABLE CLUSTER AT
         });
         //map.addLayer(clusterGroup);
 
     })
     //.addTo(map);
 
+    map.addLayer(cluster_group_default);
+
+//CLUSTER HANDLER
+function busClusterToggleClick() {
+    // access properties using this keyword
+    if ( cluster_group_default_flag == false ) {
+        map.removeLayer(bus_stops);
+        map.addLayer(cluster_group_default);
+        cluster_group_default_flag = true; 
+    } else if ( cluster_group_default_flag == true) {
+        map.removeLayer(cluster_group_default);
+        map.addLayer(bus_stops);
+        cluster_group_default_flag = false; 
+    }
+}
+
+function busStopToggleClick() {
+    // access properties using this keyword
+    if ( bus_stop_flag == false ) {
+        map.addLayer(bus_stops);
+        bus_stop_flag = true; 
+    } else if ( bus_stop_flag == true) {
+        map.removeLayer(cluster_group_default);
+        map.removeLayer(bus_stops);
+        bus_stop_flag = false; 
+    }
+}
+
+function busLineToggleClick() {
+    // access properties using this keyword
+    if ( bus_line_flag == false ) {
+        map.addLayer(bus_line);
+        bus_line_flag = true; 
+    } else if ( bus_line_flag == true) {
+        map.removeLayer(bus_line);
+        bus_line_flag = false; 
+    }
+}
+
 var myStyle = {
             //"color": "#EE352E",
-            "weight": 2,
+            "weight": 2 ,
             "opacity": 0.5
         };
+
 
         /*L.geoJson(buses_manhattan, {
             style: myStyle
         }).addTo(map*/
 
 var bus_line = L.geoJson(bus_line_file, {
-        style: function(feature) {
-            return { color: feature.properties.route_color }
-        },
         onEachFeature: function (feature, layer) {
+            
+            //find the max speed and min speed
+            if (feature.properties.speed>max_speed){ max_speed = feature.properties.speed; }
+            if (feature.properties.speed<min_speed){ min_speed = feature.properties.speed; }
+
+            all_speed.push(feature.properties.speed); 
+
             layer.bindPopup(
               '<h1 style="color:#000000;">'
-              +feature.properties.route_short
+              +feature.properties.route_id
               +'</h1><p class="light" style="color:#000000;">Route  : '
               +feature.properties.route_long
-              +'</p>'
+              +'</p><p class="light" style="color:#000000;">Speed  : '
+              +feature.properties.speed
+              +'</p><p class="light" style="color:#000000;">ID  : '
+              +feature.id
             );
 
-            if (search_value_list.indexOf(feature.properties.route_short) == -1) { //not exist in array
-                search_value_list.push(feature.properties.route_short);
+
+            if (search_value_list.indexOf(feature.properties.route_id) == -1) { //not exist in array
+                search_value_list.push(feature.properties.route_id);
+                bus_line_id_list.push(feature.properties.route_id);
             }
 
             layer.on('click',function(){
-                var route_id = feature.properties.route_short;
+                var route_id = feature.properties.route_id;
                 clickBusLine(route_id);
             }); 
         }
+        
     })
 
 bus_line.setStyle(myStyle);
+
+
+bus_line.setStyle(function(feature) {
+    var speed_color = (feature.properties.speed)-min_speed;
+
+
+            var colorScale = d3.scale.linear().domain(all_speed).range(colorbrewer.RdYlGn[11]);
+            var line_color = colorScale(speed_color);
+
+            if (line_color=="#000000"){
+                return { opacity:0} 
+            } else{
+                return { color: line_color}
+            }
+            
+        });
+
+
 
 bus_line.addTo(map);
 
@@ -124,49 +237,54 @@ bus_line.on('mouseout', function(e) {
 });
 
 function clickButton() {
-    var stop_name = document.getElementById("searchBus").value;
+    var search_value = document.getElementById("searchBus").value;
     var lines = [];
 
-    bus_stops.eachLayer(function(marker) {
-        if (marker.toGeoJSON().properties.stop_name == stop_name) {
-            marker.openPopup();
-            
-            $('#myNavmenu').offcanvas('show');
-            
-            d3.select("#busstop_histogram").selectAll("svg").remove();
-            d3.select("#busstop_histogram").selectAll("h6").remove();
+    if (bus_stop_name_list.indexOf(search_value) != -1){
+        bus_stops.eachLayer(function(marker) {
+            if (marker.toGeoJSON().properties.stop_name == search_value) {
+                marker.openPopup();
+                
+                $('#bus_stop_sidebar').offcanvas('show');
+                
+                d3.select("#busstop_histogram").selectAll("svg").remove();
+                d3.select("#busstop_histogram").selectAll("h6").remove();
 
-            var lng = marker.feature.geometry.coordinates[0];
-            var lat = marker.feature.geometry.coordinates[1];
-            lines = cleanLineNames(marker.feature.properties.bus_lines);
-            var stop_id = marker.feature.properties.stop_id;
+                var lng = marker.feature.geometry.coordinates[0];
+                var lat = marker.feature.geometry.coordinates[1];
+                lines = cleanLineNames(marker.feature.properties.bus_lines);
+                var stop_id = marker.feature.properties.stop_id;
 
-            map.setView([lat, lng], 19);
+                map.setView([lat, lng], 19);
 
-            // call server script to load JSON with wait times for this stop_id
-            // draw histogram(s)
-            $.getJSON($SCRIPT_ROOT + '/_get_waittimes', {
-                stop_id: stop_id
-            }, function (data) {
-                // console.log("RP: inside bus_stops.on('click'", data);
-                $.each(data, function(k, v) {
-                    // console.log("RP: k, v", k, v.maxtimes);
-                    makeHistogram(v, k, "sec");
+                // call server script to load JSON with wait times for this stop_id
+                // draw histogram(s)
+                $.getJSON($SCRIPT_ROOT + '/_get_waittimes', {
+                    stop_id: stop_id
+                }, function (data) {
+                    // console.log("RP: inside bus_stops.on('click'", data);
+                    $.each(data, function(k, v) {
+                        // console.log("RP: k, v", k, v.maxtimes);
+                        makeHistogram(v, k, "sec");
+                    });
                 });
-            });
 
-            //get bus route color from data/busroute_color.csv
-            d3.select("#myNavmenu").select("h2").text(stop_name);
-            d3.select("#myNavmenu").select("h4").text("Stop ID : " + stop_id)
-                                                .style({'color': 'white'});
-              
-            $('#myNavmenu').offcanvas();
+                //get bus route color from data/busroute_color.csv
+                d3.select("#bus_stop_sidebar").select("h2").text(search_value);
+                d3.select("#bus_stop_sidebar").select("h4").text("Stop ID : " + stop_id)
+                                                    .style({'color': 'white'});
+                  
+                $('#bus_stop_sidebar').offcanvas();
+                
+                for (var i=0; i<lines.length ; i++){
+                    drawBusLine(lines[i]);
+                }
 
-        }
-    });
+            } 
+        })
 
-    for (var i=0; i<lines.length ; i++){
-        drawBusLine(lines[i]);
+    } else if (bus_line_id_list.indexOf(search_value) != -1){
+        clickBusLine(search_value);
     }
 
 }
@@ -174,20 +292,22 @@ function clickButton() {
 function clickBusLine (route_id_input){
 
     bus_line.eachLayer(function(marker) {
-        if (marker.toGeoJSON().properties.route_short == route_id_input) {
-                $('#myNavmenu').offcanvas('show');
+        if (marker.toGeoJSON().properties.route_id == route_id_input) {
+                $('#bus_line_sidebar').offcanvas('show');
 
                 marker.openPopup();
 
-                var route_id = marker.toGeoJSON().properties.route_short;
+                var route_id = marker.toGeoJSON().properties.route_id;
                 var route_name = marker.toGeoJSON().properties.route_long;
 
                 //get bus route color from data/busroute_color.csv
-                d3.select("#myNavmenu").select("h2").text(route_name);
-                d3.select("#myNavmenu").select("h4").text("Route ID : " + route_id)
+                d3.select("#bus_line_sidebar").select("h2").text(route_name);
+                d3.select("#bus_line_sidebar").select("h4").text("Route ID : " + route_id)
                                                     .style({'color': 'white'});
+
+                //drawLineViz(route_id);
                   
-                $('#myNavmenu').offcanvas();
+                $('#bus_line_sidebar').offcanvas();
 
         }
     });
@@ -205,7 +325,7 @@ function drawBusLine(route_id){
 
 bus_stops.on('click', function(e) {
 
-    $('#myNavmenu').offcanvas('show');
+    $('#bus_stop_sidebar').offcanvas('show');
 
     e.layer.openPopup();
     
@@ -236,11 +356,11 @@ bus_stops.on('click', function(e) {
     });
 
     //get bus route color from data/busroute_color.csv
-    d3.select("#myNavmenu").select("h2").text(stop_name);
-    d3.select("#myNavmenu").select("h4").text("Stop ID : " + stop_id)
+    d3.select("#bus_stop_sidebar").select("h2").text(stop_name);
+    d3.select("#bus_stop_sidebar").select("h4").text("Stop ID : " + stop_id)
                                         .style({'color': 'white'});
       
-    $('#myNavmenu').offcanvas();
+    $('#bus_stop_sidebar').offcanvas();
 
     for (var i=0; i<lines.length ; i++){
         drawBusLine(lines[i]);

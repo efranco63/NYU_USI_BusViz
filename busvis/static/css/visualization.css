@@ -1,5 +1,11 @@
 
-
+.circle-icon {
+  width: 20em;
+  height: 20em;
+  border-radius: 70%;
+  background-color: #2360a5;
+  border: 1px solid #fff;
+  }
 /******************************************************
   AXIS
 ******************************************************/
