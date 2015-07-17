@@ -26,6 +26,7 @@ def get_waittimes():
 	import ast 
 
 	# ___________________________________________________
+	# OLD ---- OLD ---- OLD ---- OLD ---- OLD ---- OLD
 	# SPRINT 3: OLD: query redis data from database 0 for waittimes of Aug 4, 2014
 	#pool = redis.ConnectionPool(host='localhost', port=6379, db=0)
 	# pool = redis.ConnectionPool(host='busvis.cloudapp.net', port=6379, db=0)
