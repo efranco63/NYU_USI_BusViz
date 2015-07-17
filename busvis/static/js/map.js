@@ -178,7 +178,7 @@ var bus_line = L.geoJson(bus_line_file, {
               '<h1 style="color:#000000;">'
               +feature.properties.route_id
               +'</h1><p class="light" style="color:#000000;">Route  : '
-              +feature.properties.route_long
+              +feature.properties.route_name
               +'</p><p class="light" style="color:#000000;">Speed  : '
               +feature.properties.speed
               +'</p><p class="light" style="color:#000000;">ID  : '
@@ -298,7 +298,7 @@ function clickBusLine (route_id_input){
                 marker.openPopup();
 
                 var route_id = marker.toGeoJSON().properties.route_id;
-                var route_name = marker.toGeoJSON().properties.route_long;
+                var route_name = marker.toGeoJSON().properties.route_name;
 
                 //get bus route color from data/busroute_color.csv
                 d3.select("#bus_line_sidebar").select("h2").text(route_name);

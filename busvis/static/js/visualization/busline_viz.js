@@ -1,4 +1,4 @@
-$(".subway-map").subwayMap({ debug: true });
+$(".subway-map").subwayMap({ debug: false });
 
 $.extend({
     el: function(el, props) {
