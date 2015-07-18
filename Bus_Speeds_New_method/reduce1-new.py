@@ -21,6 +21,7 @@ def main():
     prior_dir = None
     prior_route = None
     prior_shape = None
+    prior_next_stop = None
     prior_time = None
     prior_distance = None
 
@@ -33,7 +34,7 @@ def main():
         route = key[2]
         time_stamp = datetime.strptime(key[3], '%Y-%m-%d %H:%M:%S')
         distance = key[4]
-        shape = values
+        shape, next_stop = values.strip().split('^')
      
         if (busid == prior_id) and (direction == prior_dir) and (route == prior_route):
             if (shape != 'NULL' and shape != '' and shape != prior_shape) :
@@ -43,7 +44,7 @@ def main():
                     delta_time = ((end_point - start_point).total_seconds())/3600
                     delta_distance = (float(end_distance) - float(start_distance))/1000
                     if delta_time>0 and delta_distance>0 and delta_time < 1:
-                        print "%s\t%s\t%s" % (prior_shape, str(delta_time), str(delta_distance))
+                        print "%s\t%s\t%s" % (prior_shape+'|'+prior_next_stop, str(delta_time), str(delta_distance))
                 
                 start_point = time_stamp
                 start_distance = distance
@@ -65,6 +66,7 @@ def main():
         prior_dir = direction
         prior_route = route
         prior_shape = shape
+        prior_next_stop = next_stop
         prior_time = time_stamp
         prior_distance = distance
 

@@ -59,6 +59,15 @@ def get_waittimes():
 	# print busroute
 	# return jsonify(stop_id_json)
 
+@app.route('/_get_busspeed')
+def get_busspeed():
+	import get_speed_redis
+
+	route_id = request.args.get('route_id', '', type=str)
+	redis_output = get_speed_redis.loadRedis(route_id)
+
+	return str(redis_output)
+
 
 @app.route('/')
 def index():

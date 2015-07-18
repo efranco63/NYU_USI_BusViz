@@ -38,8 +38,7 @@ def initTripLookUp():
 
 
 def initSegmentLookUp():
-    #filename = "segment_meters_FULL-ACCUMULATED.csv"
-    filename = "mta_shapes_meters_historical_remapped.csv"
+    filename = "segment_meters_FULL-ACCUMULATED.csv"
     d = {}
 
     with open(filename, 'rb') as f:
@@ -50,13 +49,11 @@ def initSegmentLookUp():
             shape_id = str(row[0])
             segment_id = str(row[1])
             meters_accumulated = str(row[2])
-            stop = str(row[3])
-            distance_stopid = meters_accumulated + "^" + stop
         
             if (shape_id not in d) or (segment_id not in d[shape_id]):
                 if shape_id not in d: 
                     d[shape_id] = {}
-                d[shape_id][segment_id] = distance_stopid
+                d[shape_id][segment_id] = meters_accumulated
 
     return d
 
@@ -69,7 +66,12 @@ def main():
     for row in parseInput():
         time_stamp = row[2]
         busid = row[3]  
-        distance_along_route = float(row[4])
+
+        try:      
+            distance_along_route = float(row[4])
+        except:
+            print "ERROR CONVERTING DISTANCE : "+row[4]
+
         direction = row[5]
         status = row[6]
         route = row[7]
@@ -86,26 +88,23 @@ def main():
 
                     _isInRoute = True
                     shapeLen = len(lookup_segment[shape_id])
-                    idCounter = 1
                     while (distance_along_route > cur_distance) and _isInRoute:
                          #print shape_id, shapeLen, str(i), distance_along_route, cur_distance
                          if (i <= shapeLen):
-                             try:
-                               cur_distance = float(lookup_segment[shape_id][str(idCounter)].split('^')[0])
-                               next_stopid = lookup_segment[shape_id][str(idCounter)].split('^')[1]
-                               shape_seg = shape_id + '-' + str(idCounter)
-                               idCounter += 1
-                             except:
-                               idCounter += 1
+                             cur_distance = float(lookup_segment[shape_id][str(i)])
+                             shape_seg = shape_id + '-' + str(i)
                              i += 1
                          else:
                              _isInRoute = False
                     if _isInRoute:
-                        print '%s|%s|%s|%s|%s\t%s^%s' % (busid,direction,route,time_stamp,distance_along_route, shape_seg,next_stopid)
+                        pass
+                        #print '%s|%s|%s|%s|%s\t%s' % (busid,direction,route,time_stamp,distance_along_route, shape_seg)
 
                 else:
-                    pass
-
+                    #pass
+                    print "NOT-IN-RADU|%s" % shape_id
+            else:
+                print "NOT-IN-HUY|%s" % tripid
 
 if __name__ == "__main__":
     main()
