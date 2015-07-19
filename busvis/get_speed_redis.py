@@ -18,14 +18,3 @@ def loadRedis(route_id):
 	output = r.hget('speed_distance',route_id)
 	output =  ast.literal_eval(str(output))
 	return output
-
-# def loadJson():
-#     with open(json_filename) as f:
-#         outJson = json.load(f)
-#     return outJson
-
-# def readStopId(stop_id):
-# 	# parameters
-# 	json_filename = 'data/2014-08-04-MTA_100027.json'		# only one bus stop, but incl night/daytimes
-#     json_object = loadJson()
-#     return json_object[stop_id]

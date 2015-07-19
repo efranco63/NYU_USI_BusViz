@@ -66,7 +66,7 @@ def get_busspeed():
 	route_id = request.args.get('route_id', '', type=str)
 	redis_output = get_speed_redis.loadRedis(route_id)
 
-	return str(redis_output)
+	return jsonify(redis_output)
 
 
 @app.route('/')

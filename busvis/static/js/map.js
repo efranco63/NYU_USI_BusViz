@@ -289,30 +289,90 @@ function clickButton() {
 
 }
 
+// ==========================Old clickBusLine function==============
+// function clickBusLine (route_id_input){
+
+//     bus_line.eachLayer(function(marker) {
+//         console.log("START: " + Date.now());
+
+//         if (marker.toGeoJSON().properties.route_id == route_id_input) {
+
+//                 console.log("END: " + Date.now());
+//                 $('#bus_line_sidebar').offcanvas('show');
+
+//                 marker.openPopup();
+
+//                 var route_id = marker.toGeoJSON().properties.route_id;
+//                 var route_name = marker.toGeoJSON().properties.route_name;
+
+//                 //get bus route color from data/busroute_color.csv
+//                 d3.select("#bus_line_sidebar").select("h2").text(route_name);
+//                 d3.select("#bus_line_sidebar").select("h4").text("Route ID : " + route_id)
+//                                                     .style({'color': 'white'});
+
+//                 //drawLineViz(route_id);
+                  
+//                 $('#bus_line_sidebar').offcanvas();
+
+//         }
+//     });
+
+// }
+// ===============================================================
+
+
+
+// ==========================New clickBusLine function==============
+// Added ajax jquery to access redis via flask
+// Contact : drp354@nyu.edu
+// =================================================================
 function clickBusLine (route_id_input){
 
-    bus_line.eachLayer(function(marker) {
-        if (marker.toGeoJSON().properties.route_id == route_id_input) {
+searchQuery = 'http://localhost:5000/_get_busspeed?route_id='+route_id_input;
+console.log(searchQuery);
+
+$.ajax({
+        url: searchQuery,
+        type: 'GET',
+        dataType: 'json',
+        error:function(x,e){
+            if(x.status === 0){
+                alert('You are offline!!\n Please Check Your Network.');
+            }
+            else if(x.status==404){
+                alert('Requested URL not found.');
+            }
+            else if(x.status==500){
+                alert('Internel Server Error.');
+            }
+            else if(e=='parsererror'){
+                alert('Error.\nParsing JSON Request failed.');
+            }
+            else if(e=='timeout'){
+                alert('Request Time out.');
+            }
+            else {
+                alert('Unknown Error.\n'+x.responseText);
+            }
+        },
+        success: function(data){
+
+                var route_name = data['features'][0]['properties']['route_name'];
+                var route_id = data['features'][0]['properties']['route_id'];
+
                 $('#bus_line_sidebar').offcanvas('show');
-
-                marker.openPopup();
-
-                var route_id = marker.toGeoJSON().properties.route_id;
-                var route_name = marker.toGeoJSON().properties.route_name;
-
-                //get bus route color from data/busroute_color.csv
+                console.log('data = ""');
+                console.log(data);
                 d3.select("#bus_line_sidebar").select("h2").text(route_name);
                 d3.select("#bus_line_sidebar").select("h4").text("Route ID : " + route_id)
                                                     .style({'color': 'white'});
-
-                //drawLineViz(route_id);
-                  
-                $('#bus_line_sidebar').offcanvas();
-
+                drawLineViz(route_id);
+                $('#bus_line_sidebar').offcanvas();          
         }
     });
 
 }
+// =================================================================
 
 
 function drawBusLine(route_id){
