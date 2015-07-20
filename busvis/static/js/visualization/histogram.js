@@ -15,13 +15,13 @@ function makeHistograms(dataset, title, timeunit) {
 
   $.each(dataset, function(key, value) {
     // console.log("RP: " + key + ": " + value );
-    title = title + " Timeslot " + key;
+    // title = title + " Timeslot " + key;
     if(key == "0") {
-      title = title + " (0-7am)";
+      title = title + " 00:00-07:00";
     } else if(key == "1") {
-      title = title + " (7am-7pm)";
+      title = title + " 07:00-19:00";
     } else {
-      title = title + " (7-12pm)";
+      title = title + " 19:00-24:00";
     }
     drawSingleHistogram(value, title, timeunit);
     title = "";
@@ -32,7 +32,7 @@ function makeHistograms(dataset, title, timeunit) {
 
 function drawSingleHistogram(values, title, timeunit) {
 
-  // console.log("RP: inside drawSingleHistogram, values:", values);
+  console.log("RP: inside drawSingleHistogram, values:", values);
 
   // in case values are in seconds tranform to minutes
   if (timeunit === "sec") {

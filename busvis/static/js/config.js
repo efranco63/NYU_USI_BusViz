@@ -34,7 +34,7 @@ var mapMarkerColor = mediumGreen;
 ******************************************************/
 
 //	define histogram
-var histoWidth = 260;
+var histoWidth = 360;
 var histoHeight = 150;
 var histoAreaPadding = 40;
 

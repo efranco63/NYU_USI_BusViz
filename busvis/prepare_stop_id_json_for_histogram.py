@@ -38,7 +38,9 @@ def transformJsonForJsPerBusline(busline, old_json):
 			new_json[b] = []
 
 	for i in range(len(bins)):
-		new_json[bins[i]].append(getSec(times[i]))
+		# dirty hack to get rid of super high numbers that destroy our histograms
+		if(getSec(times[i]) < 10000):
+			new_json[bins[i]].append(getSec(times[i]))
 
 	return new_json
 
