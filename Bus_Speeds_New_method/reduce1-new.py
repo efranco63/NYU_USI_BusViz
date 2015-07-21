@@ -11,6 +11,9 @@ import sys
 from datetime import datetime
 import math
 
+def get_total_seconds(td): 
+    return (td.microseconds + (td.seconds + td.days * 24 * 3600) * 1e6) / 1e6
+
 def main():
     
     start_point = None
@@ -35,13 +38,13 @@ def main():
         time_stamp = datetime.strptime(key[3], '%Y-%m-%d %H:%M:%S')
         distance = key[4]
         shape, next_stop = values.strip().split('^')
-     
+
         if (busid == prior_id) and (direction == prior_dir) and (route == prior_route):
             if (shape != 'NULL' and shape != '' and shape != prior_shape) :
                 if start_point != None:
                     end_point = prior_time
                     end_distance = prior_distance
-                    delta_time = ((end_point - start_point).total_seconds())/3600
+                    delta_time = float(get_total_seconds(end_point - start_point))/3600
                     delta_distance = (float(end_distance) - float(start_distance))/1000
                     if delta_time>0 and delta_distance>0 and delta_time < 1:
                         print "%s\t%s\t%s" % (prior_shape+'|'+prior_next_stop, str(delta_time), str(delta_distance))
