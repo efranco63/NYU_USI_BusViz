@@ -12,9 +12,9 @@ import redis
 import ast 
 
 
-def loadRedis(route_id):
-	pool = redis.ConnectionPool(host='busvis.cloudapp.net', port=6379, db=10)
+def loadRedis(shape_id):
+	pool = redis.ConnectionPool(host='busvis.cloudapp.net', port=6379, db=11)
 	r = redis.Redis(connection_pool=pool)
-	output = r.hget('speed_distance',route_id)
+	output = r.hget('speed_distance',shape_id)
 	output =  ast.literal_eval(str(output))
 	return output

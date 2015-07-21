@@ -46,8 +46,8 @@ def get_waittimes():
 def get_busspeed():
 	import get_speed_redis
 
-	route_id = request.args.get('route_id', '', type=str)
-	redis_output = get_speed_redis.loadRedis(route_id)
+	shape_id = request.args.get('shape_id', '', type=str)
+	redis_output = get_speed_redis.loadRedis(shape_id)
 
 	return jsonify(redis_output)
 

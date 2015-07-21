@@ -44,6 +44,8 @@
 
 
     <div id="map-canvas"></div>
+    
+
     <div id="side-panel">
     
       <div id="main-title">
@@ -51,6 +53,7 @@
       </div>
 
       <div class="panel-group" id="accordion">
+<!--
         <div class="panel panel-default">
           <div class="panel-heading"> 
             <h3 class="panel-title">
@@ -67,6 +70,9 @@
           </div>
           </div>
         </div>
+        -->
+
+
         <div class="panel panel-default" style="margin-top:0;">
           <div class="panel-heading">
             <h3 class="panel-title">
@@ -96,7 +102,7 @@
           <div class="panel-heading">
             <h3 class="panel-title">
               <a data-toggle="collapse" data-target="#collapseWaitTimes" href="#collapseWaitTimes" class="collapsed"> 
-                <span class="glyphicon glyphicon-time" aria-hidden="true"></span>&nbsp; BUS FREQUENCY
+                <span class="glyphicon glyphicon-time" aria-hidden="true"></span>&nbsp; WAIT TIMES
               </a>
             </h3>
           </div>
@@ -173,7 +179,7 @@
                   </a>
                 </div>
                   <div id="collapseBusLines" class="input-group-busLines collapse in" >
-                    <label><input type="radio" name="busLines" value="avgSpeed"> Average Speed</label><br>
+                    <label><input type="radio" name="busLines" value="avgSpeed" selected> Average Speed</label><br>
                     <label><input type="radio" name="busLines" value="busStops"> No. Of Bus Stops</label><br>
                     <div id="lineLegend">
                     Fastest
@@ -260,8 +266,7 @@
       <h2>Bus Stop Name</h2>
       <h4>Bus Stop ID</h4>
       <!-- D3 generated histogram -->
-      <div id="busstop_histogram">Distribution of number of minutes that pass<br>between buses arriving at this stop (max)<div>
-      <div>Date: {{ date }}</div>
+      <div id="busstop_histogram">Distribution of waiting times (max)<div>
     </nav>
 
     <nav id="bus_line_sidebar" class="navmenu navmenu-inverse navmenu-fixed-right offcanvas" role="navigation" style="padding:10px">
@@ -269,47 +274,10 @@
       <h2>Bus Stop Name</h2>
       <h4>Bus Stop ID</h4>
       <!-- D3 generated histogram -->
-      <div class="subway-map" data-columns='20' data-rows='30' data-cellSize='34' data-legendId='legend' data-textClass='stopLabel' data-gridnumbers="true" data-grid="false" data-lineWidth='8'>
-      <ul data-color='#006837' data-label='jQuery Widgets'>
-        <li data-coords='8,2' data-labelPos='SE' data-marker="interchange">&nbsp;&nbsp;&nbsp;Stop A</li>
-        <li data-coords='8,6' data-labelPos='NW'>&nbsp;&nbsp;&nbsp;40 mph</li>
-      </ul>
-      <ul data-color='#f46d43' data-label='jQuery Widgets'>
-        <li data-coords='8,6' data-labelPos='SE'>&nbsp;&nbsp;&nbsp;Stop B</li>
-        <li data-coords='8,7' data-labelPos='W'>&nbsp;&nbsp;&nbsp;21 mph</li>
-      </ul>
-      <ul data-color='#ffffbf' data-label='jQuery Widgets'>
-        <li data-coords='8,7' data-labelPos='SE'>&nbsp;&nbsp;&nbsp;Stop C</li>
-        <li data-coords='8,10' data-labelPos='W'>&nbsp;&nbsp;&nbsp;8 mph</li>
-      </ul>
-      <ul data-color='#66bd63' data-label='jQuery Widgets'>
-        <li data-coords='8,10' data-labelPos='SE'>&nbsp;&nbsp;&nbsp;Stop D</li>
-        <li data-coords='8,11' data-labelPos='W'>&nbsp;&nbsp;&nbsp;30 mph</li>
-      </ul>
-      <ul data-color='#f46d43' data-label='jQuery Widgets'>
-        <li data-coords='8,11' data-labelPos='SE'>&nbsp;&nbsp;&nbsp;Stop E</li>
-        <li data-coords='8,12' data-labelPos='W'>&nbsp;&nbsp;&nbsp;5 mph</li>
-      </ul>
-      <ul data-color='#1a9850' data-label='jQuery Widgets'>
-        <li data-coords='8,12' data-labelPos='SE'>&nbsp;&nbsp;&nbsp;Stop F</li>
-        <li data-coords='8,15' data-labelPos='W'>&nbsp;&nbsp;&nbsp;28 mph</li>
-      </ul>
-      <ul data-color='#a50026' data-label='jQuery Widgets'>
-        <li data-coords='8,15' data-labelPos='SE'>&nbsp;&nbsp;&nbsp;Stop G</li>
-        <li data-coords='8,16' data-labelPos='W'>&nbsp;&nbsp;&nbsp;2 mph</li>
-      </ul>
-      <ul data-color='#006837' data-label='jQuery Widgets'>
-        <li data-coords='8,16' data-labelPos='SE'>&nbsp;&nbsp;&nbsp;Stop H</li>
-         <li data-coords='8,20' data-labelPos='W'>&nbsp;&nbsp;&nbsp;28 mph</li>
-      </ul>
-      <ul data-color='#fee08b' data-label='jQuery Widgets'>
-        <li data-coords='8,20' data-labelPos='SE'>&nbsp;&nbsp;&nbsp;Stop I</li>
-        <li data-coords='8,22' data-labelPos='W'>&nbsp;&nbsp;&nbsp;17 mph</li>
-      </ul>
-      <ul data-color='#006837' data-label='jQuery Widgets'>
-        <li data-coords='8,22' data-labelPos='SE'>&nbsp;&nbsp;&nbsp;Stop K</li>
-        <li data-coords='8,24' data-labelPos='W' data-marker="interchange">&nbsp;&nbsp;&nbsp;35 mph</li>
-      </ul>
+      <div class="subway-map">
+
+
+      
       </div>
     </nav>
 
@@ -327,8 +295,9 @@
     <script src="{{ url_for('static', filename='bootstrap/js/bootstrap-datepicker.js') }}" charset="UTF-8"></script>
     <script src="{{ url_for('static', filename='jasny/js/jasny-bootstrap.js') }}" charset="UTF-8"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='pace/pace.min.js') }}"> </script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/visualization/busline_viz.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='js/app.js') }}"> </script>
-        <script type="text/javascript" src="{{ url_for('static', filename='js/visualization/busline_viz.js') }}"></script>
+
 
 
   </body>

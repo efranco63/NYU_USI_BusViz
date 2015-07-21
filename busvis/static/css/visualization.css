@@ -76,3 +76,17 @@ path {
 .vert_line text {
   fill: #f23f3f;    /*Bright red*/
 } 
+
+/******************************************************
+  BUS LINE VIZ
+******************************************************/
+#subway-viz{
+  height:1000px;
+}
+
+.stopLabel{
+  color:#ffffff;
+  padding-top:150px;
+  padding-left:15px;
+}
+

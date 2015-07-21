@@ -1,3 +1,9 @@
+// =====================================================
+//Filename : map.js
+//Author : Kania Azrina 
+//Desc : Map initialization and interaction handler 
+// =====================================================
+
 function replaceAll(find, replace, str) {
   return str.replace(new RegExp(find, 'g'), replace);
 }
@@ -28,6 +34,8 @@ new L.Control.Zoom({ position: 'topright' }).addTo(map);
 var search_value_list = [] //to be used in search box autocomplete, bus stop name and bus line id
 var bus_stop_name_list = []
 var bus_line_id_list = []
+var bus_line_dict = {}
+var bus_stop_dict = {}
 
 var max_speed = 0; //mph
 var min_speed = 999; //mph
@@ -73,6 +81,8 @@ var bus_stops = omnivore.csv(bus_stop_file)
                 search_value_list.push(marker.toGeoJSON().properties.stop_name);
                 bus_stop_name_list.push(marker.toGeoJSON().properties.stop_name);
             } 
+
+            bus_stop_dict[marker.toGeoJSON().properties.stop_id] = marker.toGeoJSON().properties.stop_name;
             
             /** Cleaning the bus lines name, stores the name into array **/
             var linesLabel = "";
@@ -102,9 +112,6 @@ var bus_stops = omnivore.csv(bus_stop_file)
               +marker.toGeoJSON().properties.SchoolDist
             );
         });
-
-        
-
 
         e.target.eachLayer(function(layer) {
             cluster_group_default.addLayer(layer);
@@ -155,18 +162,15 @@ function busLineToggleClick() {
 }
 
 var myStyle = {
-            //"color": "#EE352E",
             "weight": 2 ,
             "opacity": 0.5
         };
 
-
-        /*L.geoJson(buses_manhattan, {
-            style: myStyle
-        }).addTo(map*/
-
 var bus_line = L.geoJson(bus_line_file, {
         onEachFeature: function (feature, layer) {
+
+            //add to array
+            bus_line_dict[feature.properties.route_id] = feature.properties.route_name;
             
             //find the max speed and min speed
             if (feature.properties.speed>max_speed){ max_speed = feature.properties.speed; }
@@ -193,21 +197,21 @@ var bus_line = L.geoJson(bus_line_file, {
 
             layer.on('click',function(){
                 var route_id = feature.properties.route_id;
-                clickBusLine(route_id);
+                var shape_id = 'B110025'; //TO-DO : get shape_id
+                clickBusLine(shape_id,route_id);
             }); 
         }
         
     })
 
 bus_line.setStyle(myStyle);
+var colorScale = d3.scale.linear().domain(all_speed).range(colorbrewer.RdYlGn[11]);
 
 
 bus_line.setStyle(function(feature) {
+    
     var speed_color = (feature.properties.speed)-min_speed;
-
-
-            var colorScale = d3.scale.linear().domain(all_speed).range(colorbrewer.RdYlGn[11]);
-            var line_color = colorScale(speed_color);
+    var line_color = colorScale(speed_color);
 
             if (line_color=="#000000"){
                 return { opacity:0} 
@@ -284,51 +288,20 @@ function clickButton() {
         })
 
     } else if (bus_line_id_list.indexOf(search_value) != -1){
-        clickBusLine(search_value);
+        var shape_id = 'B110025'; //TO-DO : get shape_id
+        clickBusLine(shape_id,search_value);
     }
 
 }
-
-// ==========================Old clickBusLine function==============
-// function clickBusLine (route_id_input){
-
-//     bus_line.eachLayer(function(marker) {
-//         console.log("START: " + Date.now());
-
-//         if (marker.toGeoJSON().properties.route_id == route_id_input) {
-
-//                 console.log("END: " + Date.now());
-//                 $('#bus_line_sidebar').offcanvas('show');
-
-//                 marker.openPopup();
-
-//                 var route_id = marker.toGeoJSON().properties.route_id;
-//                 var route_name = marker.toGeoJSON().properties.route_name;
-
-//                 //get bus route color from data/busroute_color.csv
-//                 d3.select("#bus_line_sidebar").select("h2").text(route_name);
-//                 d3.select("#bus_line_sidebar").select("h4").text("Route ID : " + route_id)
-//                                                     .style({'color': 'white'});
-
-//                 //drawLineViz(route_id);
-                  
-//                 $('#bus_line_sidebar').offcanvas();
-
-//         }
-//     });
-
-// }
-// ===============================================================
-
-
 
 // ==========================New clickBusLine function==============
 // Added ajax jquery to access redis via flask
 // Contact : drp354@nyu.edu
 // =================================================================
-function clickBusLine (route_id_input){
 
-searchQuery = 'http://localhost:5000/_get_busspeed?route_id='+route_id_input;
+function clickBusLine (shape_id,route_id_input){
+
+searchQuery = 'http://localhost:5000/_get_busspeed?shape_id='+shape_id;
 console.log(searchQuery);
 
 $.ajax({
@@ -343,7 +316,7 @@ $.ajax({
                 alert('Requested URL not found.');
             }
             else if(x.status==500){
-                alert('Internel Server Error.');
+                alert('Internal Server Error.');
             }
             else if(e=='parsererror'){
                 alert('Error.\nParsing JSON Request failed.');
@@ -356,17 +329,43 @@ $.ajax({
             }
         },
         success: function(data){
+                
+                var route_name = bus_line_dict[route_id_input];
 
-                var route_name = data['features'][0]['properties']['route_name'];
-                var route_id = data['features'][0]['properties']['route_id'];
-
-                $('#bus_line_sidebar').offcanvas('show');
-                console.log('data = ""');
-                console.log(data);
                 d3.select("#bus_line_sidebar").select("h2").text(route_name);
-                d3.select("#bus_line_sidebar").select("h4").text("Route ID : " + route_id)
+                d3.select("#bus_line_sidebar").select("h4").text("Route ID : " + route_id_input)
                                                     .style({'color': 'white'});
-                drawLineViz(route_id);
+                
+                var station_list = data['list_stop_id'];
+                var distance_list = data['list_stop_id'];
+                var speed_list = [];
+                var dist_list = [];
+                var idx_start = 2;
+
+
+                for (var i=1 ; i<station_list.length-1 ; i++){
+
+                    var data_indexed = data[idx_start];
+                    var stop_tmp = data_indexed["stop_id"];
+                    var speed_tmp = data_indexed["speed"];
+                    var dist_tmp = data_indexed["distance"]; 
+                    var default_dist = data_indexed["distance_per_id"];
+                    
+                    if (stop_tmp == station_list[i]){
+                         speed_list.push(speed_tmp);
+                         dist_list.push(dist_tmp);
+                     } else {
+
+                         speed_list.push("null");
+                         dist_list.push(default_dist[i]);
+                    }
+                    
+                    idx_start = idx_start+1;
+                }
+
+
+                drawLineViz(station_list, speed_list,dist_list);
+                $('#bus_line_sidebar').offcanvas('show');
                 $('#bus_line_sidebar').offcanvas();          
         }
     });
