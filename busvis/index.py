@@ -27,7 +27,8 @@ def get_waittimes():
 	import ast 
 
 	# ___________________________________________________
-	# SPRINT 4: query redis data from database 9 (Ed) --> NEW VALUES in DB 7
+	# SPRINT 4: ACTUAL WAIT TIMES
+	# query redis data from database 9 (Ed) --> NEW VALUES in DB 7
 	# where date+stop are key, route the field, and times the values
 	#pool = redis.ConnectionPool(host='localhost', port=6379, db=9)
 	pool = redis.ConnectionPool(host='busvis.cloudapp.net', port=6379, db=7)
@@ -40,6 +41,31 @@ def get_waittimes():
 	date_stop_id_json_js = prepare_stop_id_json_for_histogram.transformJsonForJs(date_stop_id_json)
 
 	return jsonify(date_stop_id_json_js)
+
+@app.route('/_get_scheduled_waittimes')
+def get_scheduled_waittimes():
+	stop_id = request.args.get('stop_id', '', type=str) 	# stop_id = "803008"
+
+	# query data from redis DB
+	import redis
+	import ast 
+	
+	# ___________________________________________________
+	# SPRINT 5: SCHEDULED WAIT TIMES - redis DB 8
+	pool = redis.ConnectionPool(host='busvis.cloudapp.net', port=6379, db=8)
+	r = redis.Redis(connection_pool=pool)
+	sched_stop_id_json = r.hgetall(stop_id)
+
+	# print "--------------- sched_stop_id_json ORIG: ---------------"
+	# print sched_stop_id_json
+
+	import prepare_stop_id_json_for_histogram
+	sched_stop_id_json_js = prepare_stop_id_json_for_histogram.transformJsonForJs(sched_stop_id_json)
+
+	# print "--------------- sched_stop_id_json_js TRANSFORMED: ---------------"
+	# print sched_stop_id_json_js
+
+	return jsonify(sched_stop_id_json_js)
 
 
 @app.route('/_get_busspeed')

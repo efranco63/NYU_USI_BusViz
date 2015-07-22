@@ -3,9 +3,10 @@
   VISUALIZATIONS Histogram
 ******************************************************/
 
-function makeHistograms(dataset, title, timeunit) {
+function makeHistograms(dataset, title, timeunit, targetdiv) {
   if (title === undefined) { title = ""; }
   if (timeunit === undefined) { timeunit = "min"; } 
+  if (targetdiv === undefined) { targetdiv = "#busstop_histogram"; } 
 
   // console.log("RP: inside makeHistograms, dataset:", dataset);
 
@@ -23,16 +24,19 @@ function makeHistograms(dataset, title, timeunit) {
     } else {
       title = title + " 19:00-24:00";
     }
-    drawSingleHistogram(value, title, timeunit);
+
+    if(value.length > 1) {
+      drawSingleHistogram(value, title, timeunit, targetdiv);
+    }
     title = "";
   });
 
 }
 
 
-function drawSingleHistogram(values, title, timeunit) {
+function drawSingleHistogram(values, title, timeunit, targetdiv) {
 
-  console.log("RP: inside drawSingleHistogram, values:", values);
+  // console.log("RP: inside drawSingleHistogram, values:", values);
 
   // in case values are in seconds tranform to minutes
   if (timeunit === "sec") {
@@ -74,7 +78,8 @@ function drawSingleHistogram(values, title, timeunit) {
       .scale(x)
       .orient("bottom");
 
-  var locationDiv = d3.select("#busstop_histogram");
+  // var locationDiv = d3.select("#busstop_histogram");
+  var locationDiv = d3.select(targetdiv);
 
   var bus_id = title.split("_")[1];
 

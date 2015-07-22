@@ -156,7 +156,7 @@
 
                 <div class="form-group">
                 <div class="form-heading">
-                  <label for="busCluster" style="font-weight:bold;">BUS CLUSTER</label>
+                  <label for="busCluster" style="font-weight:bold;">BUS STOP CLUSTER</label>
 
                   <a data-toggle="collapse" data-target="#collapseBusCluster" href="#collapseBusCluster" onClick="busClusterToggleClick()" style="float:right;">
                     <input id="busClusterToggle" type="checkbox" checked data-toggle="toggle" data-size="mini">
@@ -273,7 +273,10 @@
       <h2>Bus Stop Name</h2>
       <h4>Bus Stop ID</h4>
       <!-- D3 generated histogram -->
-      <div id="busstop_histogram">Distribution of waiting times (max)<div>
+      <div id="busstop_histogram_wrapper" style="position:relative;">
+        <div id="busstop_histogram_sched" style="position:absolute;top:0;right:0;width:250px;">Scheduled waiting times</div>
+        <div id="busstop_histogram" style="position:absolute;top:0;left:0;width:250px;">Actual waiting times (max)</div>
+      </div>
     </nav>
 
     <nav id="bus_line_sidebar" class="navmenu navmenu-inverse navmenu-fixed-right offcanvas" role="navigation" style="padding:10px">

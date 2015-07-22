@@ -124,11 +124,26 @@ function clickButton() {
 
                 // call server script to load JSON with wait times for this stop_id
                 // draw histogram(s)
+                var buslinesWithActualTimes = []
+
                 $.getJSON($SCRIPT_ROOT + '/_get_waittimes', {
                     stop_id: stop_id
                 }, function (data) {
                     $.each(data, function(k, v) {
-                        makeHistogram(v, k, "sec");
+                        makeHistograms(v, k, "sec", "#busstop_histogram");
+                        buslinesWithActualTimes.push(k);
+                    });
+                });
+
+                $.getJSON($SCRIPT_ROOT + '/_get_scheduled_waittimes', {
+                    stop_id: stop_id
+                }, function (data) {
+                    $.each(data, function(k, v) {
+                        // console.log("RP: k = " + k);
+                        // console.log("RP: v = " + v);
+                        if(buslinesWithActualTimes.indexOf(k) > -1) {
+                            makeHistograms(v, k, "sec", "#busstop_histogram_sched");
+                        }
                     });
                 });
 
@@ -339,6 +354,9 @@ bus_stops.on('click', function(e) {
     d3.select("#busstop_histogram").selectAll("svg").remove();
     d3.select("#busstop_histogram").selectAll("h6").remove();
 
+    d3.select("#busstop_histogram_sched").selectAll("svg").remove();
+    d3.select("#busstop_histogram_sched").selectAll("h6").remove();
+
     //map.setView([40.725497, -73.844016], mapboxZoomLevel)
 
     var stop_id = e.layer.feature.properties.stop_id;
@@ -351,11 +369,26 @@ bus_stops.on('click', function(e) {
         
     // call server script to load JSON with wait times for this stop_id
     // draw histogram(s)
+    var buslinesWithActualTimes = []
+
     $.getJSON($SCRIPT_ROOT + '/_get_waittimes', {
         stop_id: stop_id
     }, function (data) {
         $.each(data, function(k, v) {
-            makeHistograms(v, k, "sec");
+            makeHistograms(v, k, "sec", "#busstop_histogram");
+            buslinesWithActualTimes.push(k);
+        });
+    });
+
+    $.getJSON($SCRIPT_ROOT + '/_get_scheduled_waittimes', {
+        stop_id: stop_id
+    }, function (data) {
+        $.each(data, function(k, v) {
+            // console.log("RP: k = " + k);
+            // console.log("RP: v = " + v);
+            if(buslinesWithActualTimes.indexOf(k) > -1) {
+                makeHistograms(v, k, "sec", "#busstop_histogram_sched");
+            }
         });
     });
 
