@@ -275,6 +275,8 @@ new L.Control.Zoom({ position: 'topright' }).addTo(map);
 
 // ====== BUS STOPS INITIALIZATION ====== //
 
+
+
 var circleIcon = L.divIcon({
   // Specify a class name we can refer to in CSS.
   className: 'circle-icon',
@@ -282,58 +284,54 @@ var circleIcon = L.divIcon({
   iconSize: [10, 10]
 });
 
-var bus_stops = omnivore.csv(bus_stop_file)
-    .on('ready', function(e) {
+var bus_stops = L.geoJson(bus_stop_file,{
+     onEachFeature: function (feature, layer) {
 
         document.getElementById('searchBusButton').onclick = clickButton;
 
-        this.eachLayer(function(marker) {
 
-
-            if (search_value_list.indexOf(marker.toGeoJSON().properties.stop_name) == -1) { //not exist in array
-                search_value_list.push(marker.toGeoJSON().properties.stop_name);
-                bus_stop_name_list.push(marker.toGeoJSON().properties.stop_name);
+            if (search_value_list.indexOf(feature.properties.stop_name) == -1) { //not exist in array
+                search_value_list.push(feature.properties.stop_name);
+                bus_stop_name_list.push(feature.properties.stop_name);
             } 
 
-            bus_stop_dict[marker.toGeoJSON().properties.stop_id] = marker.toGeoJSON().properties.stop_name;
+            bus_stop_dict[feature.properties.stop_id] = feature.properties.stop_name;
             
             /** Cleaning the bus lines name, stores the name into array **/
             var linesLabel = "";
-            var lines = cleanLineNames(marker.toGeoJSON().properties.bus_lines);
+            var lines = cleanLineNames(feature.properties.bus_lines);
             for (i=0; i< lines.length ; i++){
                 linesLabel = linesLabel + lines[i] + ", ";
             }
             linesLabel = linesLabel.substr(0,linesLabel.length-2);
         
 
-            marker.setIcon(circleIcon);
+           layer.setIcon(circleIcon);
 
-            marker.bindPopup(
+            layer.bindPopup(
               '<h1 style="color:#000000;">'
-              +marker.toGeoJSON().properties.stop_name 
+              +feature.properties.stop_name 
               +'</h1><p class="light" style="color:#000000;">Bus Lines : '
               +linesLabel
               +'</p><p class="light" style="color:#000000;">Borough : '
-              +marker.toGeoJSON().properties.BoroName
+              +feature.properties.BoroName
               +'</p><p class="light" style="color:#000000;">Zip Code : '
-              +marker.toGeoJSON().properties.POSTAL
+              +feature.properties.POSTAL
               +'</p><p class="light" style="color:#000000;">Census Block : '
-              +marker.toGeoJSON().properties.CB2010
+              +feature.properties.CB2010
               +'</p><p class="light" style="color:#000000;">Census Tract : '
-              +marker.toGeoJSON().properties.CT2010
+              +feature.properties.CT2010
               +'</p><p class="light" style="color:#000000;">School District: '
-              +marker.toGeoJSON().properties.SchoolDist
+              +feature.properties.SchoolDist
             );
-        });
 
-        e.target.eachLayer(function(layer) {
-            cluster_group_default.addLayer(layer);
-            //TO-DO : DISABLE CLUSTER AT
-        });
-        //map.addLayer(clusterGroup);
-
-    })
+    }
     //.addTo(map);
+})
+
+bus_stops.eachLayer(function(layer) {
+    cluster_group_default.addLayer(layer);
+});
 
     map.addLayer(cluster_group_default);
 

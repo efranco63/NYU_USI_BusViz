@@ -11,9 +11,9 @@ var env = "dev";
   PATHS TO ALL THE DATA
 ******************************************************/
 
-var bus_stop_file = (env === "dev") ? "/static/busroute/bus_stop_sample.csv" : "/static/busroute/bus_stop_descriptions.csv";
+var bus_stop_file = (env === "dev") ? all_bus_stop : all_bus_stop ;
 var file_active_bus = "/static/dummy/active_bus_graph.csv";
-var bus_line_file = (env === "dev") ? bus_route_brooklyn : bus_line_all;
+var bus_line_file = (env === "dev") ? bus_route_all : bus_route_all;
 
 
 /******************************************************
