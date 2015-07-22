@@ -175,7 +175,7 @@ function clickButton() {
 function clickBusLine (shape_id){
 
 //searchQuery = 'http://localhost:5000/_get_busspeed?shape_id='+shape_id;
-searchQuery = 'http://busvis.cloudapp.net/_get_busspeed?shape_id='+shape_id;
+searchQuery = '/_get_busspeed?shape_id='+shape_id;
 console.log(searchQuery);
 
 $.ajax({
