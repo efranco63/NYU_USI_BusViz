@@ -103,6 +103,7 @@ function busLineToggleClick() {
 
 function clickButton() {
     var search_value = document.getElementById("searchBus").value;
+    var start_date = document.getElementById("startDate").value;
     var lines = [];
 
     if (bus_stop_name_list.indexOf(search_value) != -1){
@@ -174,8 +175,8 @@ function clickButton() {
 
 function clickBusLine (shape_id){
 
-//searchQuery = 'http://localhost:5000/_get_busspeed?shape_id='+shape_id;
-searchQuery = 'http://busvis.cloudapp.net/_get_busspeed?shape_id='+shape_id;
+searchQuery = '/_get_busspeed?shape_id='+shape_id;
+//searchQuery = 'http://busvis.cloudapp.net/_get_busspeed?shape_id='+shape_id;
 console.log(searchQuery);
 
 $.ajax({

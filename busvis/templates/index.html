@@ -7,6 +7,7 @@
   <!-- HEADER START -->
   <head>
     <!--<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBKMxUK5yzz0XnMa1FLB2GDvbrdnaEY5vQ"></script>-->
+    <script type="text/javascript" src="{{ url_for('static', filename='pace/pace.min.js') }}"> </script>
     <script type="text/javascript" src="{{ url_for('static', filename='js/busdata.js') }}"> </script>
     <script type="text/javascript" src="{{ url_for('static', filename='js/bus_route_speed.js') }}"> </script>
     <script type="text/javascript" src="{{ url_for('static', filename='js/all_bus_stop.js') }}"> </script>
@@ -228,8 +229,6 @@
 
       <div id="datepicker" class="input-daterange">
         <input id="startDate" type="text" class="input-small" value="08/04/2014" />
-        <span class="add-on">to</span>
-        <input id="endDate"type="text" class="input-small" value="08/11/2014" />
       </div>
       <br>
 <!--
@@ -297,7 +296,7 @@
     <script src="{{ url_for('static', filename='bootstrap/js/bootstrap.min.js') }}"></script>
     <script src="{{ url_for('static', filename='bootstrap/js/bootstrap-datepicker.js') }}" charset="UTF-8"></script>
     <script src="{{ url_for('static', filename='jasny/js/jasny-bootstrap.js') }}" charset="UTF-8"></script>
-    <script type="text/javascript" src="{{ url_for('static', filename='pace/pace.min.js') }}"> </script>
+    
     <script type="text/javascript" src="{{ url_for('static', filename='js/visualization/busline_viz.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='js/app.js') }}"> </script>
 
