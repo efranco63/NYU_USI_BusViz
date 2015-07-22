@@ -103,6 +103,7 @@ function busLineToggleClick() {
 
 function clickButton() {
     var search_value = document.getElementById("searchBus").value;
+    var start_date = document.getElementById("startDate").value;
     var lines = [];
 
     if (bus_stop_name_list.indexOf(search_value) != -1){
@@ -176,7 +177,7 @@ function clickBusLine (shape_id){
 
 //searchQuery = 'http://localhost:5000/_get_busspeed?shape_id='+shape_id;
 searchQuery = '/_get_busspeed?shape_id='+shape_id;
-// console.log(searchQuery);
+console.log(searchQuery);
 
 $.ajax({
         url: searchQuery,
@@ -263,6 +264,8 @@ function drawBusLine(route_id){
 
 // ====== MAPS INITIALIZATION ====== //
 
+document.getElementById('searchBusButton').onclick = clickButton;
+
 L.mapbox.accessToken = 'pk.eyJ1Ijoia2VubnlhenJpbmEiLCJhIjoidUY3OFkxVSJ9.5wxiS6D6ByjU5fRegUmyBQ'; //kennyazrina's API access token for BusVis
 
 //load busroute
@@ -286,9 +289,6 @@ var circleIcon = L.divIcon({
 
 var bus_stops = L.geoJson(bus_stop_file,{
      onEachFeature: function (feature, layer) {
-
-        document.getElementById('searchBusButton').onclick = clickButton;
-
 
             if (search_value_list.indexOf(feature.properties.stop_name) == -1) { //not exist in array
                 search_value_list.push(feature.properties.stop_name);
