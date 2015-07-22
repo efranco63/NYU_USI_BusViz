@@ -36,7 +36,8 @@ function makeHistograms(dataset, title, timeunit, targetdiv) {
 
 function drawSingleHistogram(values, title, timeunit, targetdiv) {
 
-  // console.log("RP: inside drawSingleHistogram, values:", values);
+  console.log("RP: inside drawSingleHistogram, title:", title);
+  console.log("RP: inside drawSingleHistogram, values:", values);
 
   // in case values are in seconds tranform to minutes
   if (timeunit === "sec") {
