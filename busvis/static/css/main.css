@@ -152,7 +152,7 @@ label{
 }
 
 #lineLegend{
-font-size: 10px;
+/*font-size: 10px;*/
 padding-left: 10%;
 padding-right:10%;
 }
@@ -172,6 +172,19 @@ padding-right:10%;
 #copyright{
 	padding-top:5px;
 	text-align:center;
+}
+
+#lineSpeedLegendBox {
+    padding: 1.5em 0 0 1.5em;
+}
+
+li.key {
+    border-top-width: 15px;
+    border-top-style: solid;
+    font-size: .75em;
+    width: 20%;
+    padding-left: 0;
+    padding-right: 0;
 }
 
 

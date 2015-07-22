@@ -72,7 +72,7 @@
         </div>
         -->
 
-
+<!--
         <div class="panel panel-default" style="margin-top:0;">
           <div class="panel-heading">
             <h3 class="panel-title">
@@ -121,6 +121,7 @@
           </div>
           </div>
         </div>
+        -->
         <div class="panel panel-default" style="margin-top:0;">
           <div class="panel-heading">
             <h3 class="panel-title">
@@ -129,7 +130,7 @@
               </a>
             </h3>
           </div>
-          <div id="collapseCustomize" class="panel-collapse collapse">
+          <div id="collapseCustomize" class="panel-collapse collapse in">
             <div class="panel-body">
               <form>
                 <div class="form-group">
@@ -139,6 +140,7 @@
                     <input type="checkbox" checked data-toggle="toggle" data-size="mini">
                   </a>
                   </div>
+                  <!--
                   <div id="collapseBusStop" class="input-group-busStop collapse in">
                     <label><input type="radio" name="busStop" value="waitTimes"> Wait Times</label> <br>
                     <label><input type="radio" name="busStop" value="busLinesCount"> Bus Lines Count</label> <br>
@@ -149,6 +151,7 @@
                     <div style="text-align:right;">Slower Wait Time</div>
                     </div>
                   </div>
+                  -->
                 </div>
 
                 <div class="form-group">
@@ -159,6 +162,7 @@
                     <input id="busClusterToggle" type="checkbox" checked data-toggle="toggle" data-size="mini">
                   </a>
                 </div>
+                  <!--
                   <div id="collapseBusCluster" class="input-group-busCluster collapse in" >
                     <label><input type="radio" name="busCluster" value="boroughs"> Boroughs</label><br>
                     <label><input type="radio" name="busCluster" value="neighborhood"> Neighborhood</label><br>
@@ -169,6 +173,7 @@
                     <div style="text-align:right;">More Bus</div>
                     </div>
                   </div>
+                  -->
                 </div>
 
                 <div class="form-group">
@@ -179,12 +184,14 @@
                   </a>
                 </div>
                   <div id="collapseBusLines" class="input-group-busLines collapse in" >
+                  <!--
                     <label><input type="radio" name="busLines" value="avgSpeed" selected> Average Speed</label><br>
                     <label><input type="radio" name="busLines" value="busStops"> No. Of Bus Stops</label><br>
+                    -->
                     <div id="lineLegend">
-                    Fastest
-                    <div id="lineLegendBox"></div>
-                    <div style="text-align:right;">Slowest</div>
+                    Slowest (mph)
+                    <div id="lineSpeedLegendBox"></div>
+                    <div style="text-align:right;">Fastest (mph)</div>
                     </div>
                     </div>
                   </div>

@@ -1,16 +1,13 @@
 // =====================================================
 // Filename : busline_viz.js
-// Author : Kania Azrina
+// Author : Kania Azrina ka@1531@nyu.edu
 // Desc : Create bus line visualization per bus route 
 // =====================================================
-
-
 
 function drawLineViz(stop_list,speed_list,dist_list){
 
     //get panel's width
     var panelWidth = $("body").width()*0.4;
-    console.log(panelWidth)
     var cellSize = 15;
     var maxCellRow = 1000;
     var cellColumn = Math.floor(panelWidth/cellSize);
@@ -47,7 +44,7 @@ function drawLineViz(stop_list,speed_list,dist_list){
         if (speed_list[i] != "null"){
             viz_ul.setAttribute("data-color",colorScale(speed_list[i]));
         } else {
-            viz_ul.setAttribute("data-color",colorScale("#d3d3d3"));
+            viz_ul.setAttribute("data-color","#d3d3d3");
         }
         
         $("#subway_viz").append(viz_ul);
@@ -59,13 +56,19 @@ function drawLineViz(stop_list,speed_list,dist_list){
         viz_il_1.setAttribute("data-labelPos","E");
         viz_il_1.appendChild(document.createTextNode(bus_stop_dict[stop_list[i]]));
 
-        offset = offset + speed_list[i];
+        offset = offset + dist_list[i]/50;
         coordsHolder = x.toString()+","+offset.toString();
     
         var viz_il_2 = document.createElement('li');
         viz_il_2.setAttribute("data-coords",coordsHolder );
         viz_il_2.setAttribute("data-labelPos","NW");
-        viz_il_2.appendChild(document.createTextNode((speed_list[i]).toFixed(2).toString()+" mph"));
+        if (speed_list[i] != "null"){
+            viz_il_2.appendChild(document.createTextNode((speed_list[i]).toFixed(2).toString()+" mph"));
+        } else {
+            viz_il_2.appendChild(document.createTextNode("null"));
+        }
+
+        
 
         $(viz_ul).append(viz_il_1);
         $(viz_ul).append(viz_il_2);
