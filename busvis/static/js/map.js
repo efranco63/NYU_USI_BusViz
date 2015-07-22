@@ -265,6 +265,8 @@ function drawBusLine(route_id){
 
 // ====== MAPS INITIALIZATION ====== //
 
+document.getElementById('searchBusButton').onclick = clickButton;
+
 L.mapbox.accessToken = 'pk.eyJ1Ijoia2VubnlhenJpbmEiLCJhIjoidUY3OFkxVSJ9.5wxiS6D6ByjU5fRegUmyBQ'; //kennyazrina's API access token for BusVis
 
 //load busroute
@@ -288,9 +290,6 @@ var circleIcon = L.divIcon({
 
 var bus_stops = L.geoJson(bus_stop_file,{
      onEachFeature: function (feature, layer) {
-
-        document.getElementById('searchBusButton').onclick = clickButton;
-
 
             if (search_value_list.indexOf(feature.properties.stop_name) == -1) { //not exist in array
                 search_value_list.push(feature.properties.stop_name);
