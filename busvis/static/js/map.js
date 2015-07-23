@@ -9,8 +9,18 @@
 // ====== VARIABLES INITIALIZATION ====== //
 
 var search_value_list = [] //to be used in search box autocomplete, bus stop name and bus line id
-var bus_stop_name_list = []
-var bus_line_id_list = []
+
+// ===============Performance improvement==============
+// Improve performance by using dictionary (hashmap) 
+// Contact : drp354@nyu.edu
+// =====================================================
+//var bus_stop_name_list = []
+//var bus_line_id_list = []
+var search_value_Dict = {} //to be used in search box autocomplete, bus stop name and bus line id
+var bus_stop_name_Dict = {}
+var bus_line_id_Dict = {}
+
+
 var bus_line_dict = {}
 var bus_stop_dict = {}
 
@@ -109,7 +119,7 @@ function clickButton() {
     console.log(start_date);
     var lines = [];
 
-    if (bus_stop_name_list.indexOf(search_value) != -1){
+    if (bus_stop_name_Dist[search_value]){
         bus_stops.eachLayer(function(marker) {
             if (marker.toGeoJSON().properties.stop_name == search_value) {
                 marker.openPopup();
@@ -168,7 +178,7 @@ function clickButton() {
             } 
         })
 
-    } else if (bus_line_id_list.indexOf(search_value) != -1){
+    } else if (!bus_line_id_Dist[search_value]){
         clickBusLine(search_value);
     }
 
@@ -181,6 +191,8 @@ function clickButton() {
 var debugData, median, top5hi, top5lo;
 function initTopValues (){
 
+
+console.log('TopValue init START');
 //searchQuery = 'http://localhost:5000/_get_busspeed?shape_id='+shape_id;
 searchQuery = '/_get_top';
 
@@ -237,7 +249,8 @@ $.ajax({
 
             median = Math.round(median * 100) / 100
             $('#averageSpeed').text(median.toString()+' mph');
-            
+            console.log('TopValue init FINISH');
+      
         }
     });
 
@@ -343,7 +356,9 @@ function drawBusLine(route_id){
 
 // ====== MAPS INITIALIZATION ====== //
 
+
 document.getElementById('searchBusButton').onclick = clickButton;
+console.log('map init START');
 
 L.mapbox.accessToken = 'pk.eyJ1Ijoia2VubnlhenJpbmEiLCJhIjoidUY3OFkxVSJ9.5wxiS6D6ByjU5fRegUmyBQ'; //kennyazrina's API access token for BusVis
 
@@ -353,6 +368,7 @@ var map = L.mapbox.map('map-canvas', '', { zoomControl: false })
     .addLayer(L.mapbox.tileLayer('kennyazrina.lpg413d8'));
 
 new L.Control.Zoom({ position: 'topright' }).addTo(map);
+console.log('map init FINISH');
 
 
 
@@ -361,12 +377,16 @@ new L.Control.Zoom({ position: 'topright' }).addTo(map);
 // Contact : drp354@nyu.edu
 // ====================================================
 // ====== TOP 5 INITIALIZATION ====== //
+console.log('top5 init');
 initTopValues();
+console.log('top5 finished');
 
 
 
 // ====== BUS STOPS INITIALIZATION ====== //
 
+
+console.log('BusStop init');
 
 var circleIcon = L.divIcon({
   // Specify a class name we can refer to in CSS.
@@ -378,9 +398,9 @@ var circleIcon = L.divIcon({
 var bus_stops = L.geoJson(bus_stop_file,{
      onEachFeature: function (feature, layer) {
 
-            if (search_value_list.indexOf(feature.properties.stop_name) == -1) { //not exist in array
-                search_value_list.push(feature.properties.stop_name);
-                bus_stop_name_list.push(feature.properties.stop_name);
+            if (!search_value_Dict[feature.properties.stop_name]) { //not exist in Dictionary
+                search_value_Dict[feature.properties.stop_name] = true;
+                bus_stop_name_Dict[feature.properties.stop_name] = true;
             } 
 
             bus_stop_dict[feature.properties.stop_id] = feature.properties.stop_name;
@@ -493,18 +513,23 @@ bus_stops.on('click', function(e) {
         drawBusLine(lines[i]);
     }
 
+console.log('BusStop finish');
+
 });
 
 
 // ====== BUS LINES INITIALIZATION ====== //
+
 
 var myStyle = {
             "weight": 2 ,
             "opacity": 0.5
         };
 
+console.log('BusLine init');
 var bus_line = L.geoJson(bus_line_file, {
         onEachFeature: function (feature, layer) {
+
 
             //add to array
             bus_line_dict[feature.properties.route_id] = feature.properties.route_name;
@@ -526,18 +551,30 @@ var bus_line = L.geoJson(bus_line_file, {
             );
 
 
-            if (search_value_list.indexOf(feature.properties.shape_id) == -1) { //not exist in array
-                search_value_list.push(feature.properties.shape_id);
-                bus_line_id_list.push(feature.properties.shape_id);
+            if (!search_value_Dict[feature.properties.shape_id]) { //not exist in array
+                search_value_Dict[feature.properties.shape_id] = true;
+                bus_line_id_Dict[feature.properties.shape_id] = true;
             }
 
             layer.on('click',function(){
                 var shape_id = feature.properties.shape_id; 
                 clickBusLine(shape_id);
             }); 
+
         }
         
     })
+
+// ===============Performance improvement==============
+// Improve performance by using dictionary (hashmap) 
+// Contact : drp354@nyu.edu
+// =====================================================
+for (var key in search_value_Dict) {
+    search_value_list.push(key);
+}
+
+
+console.log('Busline init finish');
 
 
 bus_line.setStyle(myStyle);
@@ -559,7 +596,9 @@ for (var i=0; i<5 ; i++){
 
 var colorScale = d3.scale.quantile().domain(all_speed).range(colorbrewer.RdYlGn[5]);
 
+console.log('Speed color init');
 bus_line.setStyle(function(feature) {
+
     
     var speed_color = (feature.properties.speed)-min_speed;
     var line_color = colorScale(speed_color);
@@ -568,11 +607,13 @@ bus_line.setStyle(function(feature) {
                 return { opacity:0} 
             } else{
                 return { color: line_color}
-            }
-            
+            }            
         });
+console.log('speed color finish');
 
+console.log('busline add to map start');
 bus_line.addTo(map);
+console.log('busline add to map finish');
 
 
 var legend = d3.select('#lineSpeedLegendBox')
@@ -590,9 +631,14 @@ keys.enter().append('li')
         return r[0].toFixed(2);
     });
 
+console.log('ALL FINISHED');
+
+
 bus_line.on('mouseover', function(e) {
     e.layer.openPopup();
 });
 bus_line.on('mouseout', function(e) {
     e.layer.closePopup();
+
+
 });
