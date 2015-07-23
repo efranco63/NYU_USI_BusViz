@@ -178,7 +178,7 @@ function clickButton() {
             } 
         })
 
-    } else if (!bus_line_id_Dist[search_value]){
+    } else if (bus_line_id_Dist[search_value]){
         clickBusLine(search_value);
     }
 
