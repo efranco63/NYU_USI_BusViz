@@ -177,6 +177,7 @@ function clickBusLine (shape_id){
 
 //searchQuery = 'http://localhost:5000/_get_busspeed?shape_id='+shape_id;
 searchQuery = '/_get_busspeed?shape_id='+shape_id;
+
 console.log(searchQuery);
 
 $.ajax({
@@ -250,6 +251,9 @@ $.ajax({
 
 }
 // =================================================================
+
+
+
 
 
 function drawBusLine(route_id){
@@ -403,6 +407,77 @@ bus_stops.on('click', function(e) {
 
 });
 
+// ================Top 5 and mean function==============
+// Init top values including mean, tophi, toplo
+// Contact : drp354@nyu.edu
+// =====================================================
+var debugData, median, top5hi, top5lo;
+function initTopValues (){
+
+//searchQuery = 'http://localhost:5000/_get_busspeed?shape_id='+shape_id;
+searchQuery = '/_get_top';
+
+console.log(searchQuery);
+
+$.ajax({
+        url: searchQuery,
+        type: 'GET',
+        dataType: 'json',
+        error:function(x,e){
+            if(x.status === 0){
+                alert('You are offline!!\n Please Check Your Network.');
+            }
+            else if(x.status==404){
+                alert('Requested URL not found.');
+            }
+            else if(x.status==500){
+                alert('Internal Server Error.');
+            }
+            else if(e=='parsererror'){
+                alert('Error.\nParsing JSON Request failed.');
+            }
+            else if(e=='timeout'){
+                alert('Request Time out.');
+            }
+            else {
+                alert('Unknown Error.\n'+x.responseText);
+            }
+        },
+        success: function(data){
+            debugData = data;
+            median = data['median'];
+            top5hi = data['tophi']
+                        .replace('[', '')
+                        .replace(']', '')
+                        .replace(' ', '')
+                        .replace(/'/g, '')
+                        .split(',');
+            top5lo = data['toplo']
+                        .replace('[', '')
+                        .replace(']', '')
+                        .replace(' ', '')
+                        .replace(/'/g, '')
+                        .split(',');
+
+            //send to html
+            $('#Slow3').text(top5lo[2].toString());
+            $('#Slow2').text(top5lo[3].toString());
+            $('#Slow1').text(top5lo[4].toString());
+
+            $('#Fast1').text(top5hi[0].toString());
+            $('#Fast2').text(top5hi[1].toString());
+            $('#Fast3').text(top5hi[2].toString());
+
+            median = Math.round(median * 100) / 100
+            $('#averageSpeed').text(median.toString()+' mph');
+            
+        }
+    });
+
+}
+// =================================================================
+
+
 
 
 // ====== BUS LINES INITIALIZATION ====== //
@@ -447,6 +522,13 @@ var bus_line = L.geoJson(bus_line_file, {
         }
         
     })
+
+// ================Top 5 and mean function==============
+// Init top values including mean, tophi, toplo
+// Contact : drp354@nyu.edu
+// ====================================================
+initTopValues();
+
 
 bus_line.setStyle(myStyle);
 

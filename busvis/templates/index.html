@@ -73,32 +73,34 @@
         </div>
         -->
 
-<!--
+
         <div class="panel panel-default" style="margin-top:0;">
           <div class="panel-heading">
             <h3 class="panel-title">
             <a data-toggle="collapse" data-target="#collapseSpeed" href="#collapseSpeed" class="collapsed"> 
-            <span class="glyphicon glyphicon-dashboard" aria-hidden="true"></span>&nbsp; SPEED 
+            <span class="glyphicon glyphicon-dashboard" aria-hidden="false"></span>&nbsp; SPEED 
             </a>
             </h3>
           </div>
           <div id="collapseSpeed" class="panel-collapse collapse">
           <div class="panel-body">
-            Average : 32 mph <br>
+            Median Speed :
+            <div id="averageSpeed"></div>
             Slowest 
-              <button type="button" class="btn btn-default btn-xs">B34</button>
-              <button type="button" class="btn btn-default btn-xs">M23</button>
-              <button type="button" class="btn btn-default btn-xs">BX1</button>
+              <button type="button" id="Slow1" class="btn btn-default btn-xs"></button>
+              <button type="button" id="Slow2" class="btn btn-default btn-xs"></button>
+              <button type="button" id="Slow3" class="btn btn-default btn-xs"></button>
               <br>
             Fastest 
-              <button type="button" class="btn btn-default btn-xs">B34</button>
-              <button type="button" class="btn btn-default btn-xs">M23</button>
-              <button type="button" class="btn btn-default btn-xs">BX1</button>
-              <br>
-            
+              <button type="button" id="Fast1" class="btn btn-default btn-xs"></button>
+              <button type="button" id="Fast2" class="btn btn-default btn-xs"></button>
+              <button type="button" id="Fast3" class="btn btn-default btn-xs"></button>
+              <br>            
           </div>
           </div>
         </div>
+
+        <!--
         <div class="panel panel-default" style="margin-top:0;">
           <div class="panel-heading">
             <h3 class="panel-title">
@@ -123,6 +125,11 @@
           </div>
         </div>
         -->
+
+
+
+
+
         <div class="panel panel-default" style="margin-top:0;">
           <div class="panel-heading">
             <h3 class="panel-title">

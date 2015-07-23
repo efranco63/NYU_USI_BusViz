@@ -71,12 +71,22 @@ def get_scheduled_waittimes():
 @app.route('/_get_busspeed')
 def get_busspeed():
 	import get_speed_redis
-
 	shape_id = request.args.get('shape_id', '', type=str)
 	redis_output = get_speed_redis.loadRedis(shape_id)
 
 	return jsonify(redis_output)
 
+@app.route('/_get_top')
+def get_topmean_speed():
+	import get_speed_redis
+	import ast 
+	tophi,toplo,median = get_speed_redis.loadTopMean()
+	output = {
+            'median': median,
+            'tophi': tophi,
+            'toplo': toplo,
+    }
+	return jsonify(output)
 
 @app.route('/')
 def index():
