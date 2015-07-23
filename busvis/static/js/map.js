@@ -18,6 +18,10 @@ var max_speed = 0; //mph
 var min_speed = 999; //mph
 var all_speed = [];
 
+//start_date default
+var start_date = "2014-08-04";
+
+
 
 //CLUSTER GROUPS
 var cluster_group_default = new L.MarkerClusterGroup({disableClusteringAtZoom:16});
@@ -100,10 +104,11 @@ function busLineToggleClick() {
 }
 
 // SEARCH FUNCTION
-
 function clickButton() {
     var search_value = document.getElementById("searchBus").value;
-    var start_date = document.getElementById("startDate").value;
+    var button_date = document.getElementById("startDate").value.split('/');
+    start_date = button_date[2] + '-' + button_date[0] + '-' + button_date[1];
+    console.log(start_date);
     var lines = [];
 
     if (bus_stop_name_list.indexOf(search_value) != -1){
@@ -125,12 +130,15 @@ function clickButton() {
 
                 // call server script to load JSON with wait times for this stop_id
                 // draw histogram(s)
-                var buslinesWithActualTimes = []
+                var buslinesWithActualTimes = [];
+                $('#hist_date').text(start_date);
 
                 $.getJSON($SCRIPT_ROOT + '/_get_waittimes', {
-                    stop_id: stop_id
+                    stop_id: stop_id,
+                    date: start_date
                 }, function (data) {
                     $.each(data, function(k, v) {
+                        console.log("enter1");
                         makeHistograms(v, k, "sec", "#busstop_histogram");
                         buslinesWithActualTimes.push(k);
                     });
@@ -372,11 +380,15 @@ bus_stops.on('click', function(e) {
     // call server script to load JSON with wait times for this stop_id
     // draw histogram(s)
     var buslinesWithActualTimes = []
+    $('#hist_date').text(start_date);
+
 
     $.getJSON($SCRIPT_ROOT + '/_get_waittimes', {
-        stop_id: stop_id
+        stop_id: stop_id,
+        date: start_date
     }, function (data) {
         $.each(data, function(k, v) {
+            console.log("enter2");
             makeHistograms(v, k, "sec", "#busstop_histogram");
             buslinesWithActualTimes.push(k);
         });

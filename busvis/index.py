@@ -18,8 +18,8 @@ app = Flask(__name__)
 
 @app.route('/_get_waittimes')
 def get_waittimes():
-	date = "2014-08-06"
 	stop_id = request.args.get('stop_id', '', type=str)
+	date = request.args.get('date', '', type=str)
 	date_stop_id_key = str(date) + "-" + str(stop_id)		# stop_id = "803008"
 
 	# query data from redis DB
