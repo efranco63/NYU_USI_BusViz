@@ -120,7 +120,7 @@ function clickButton() {
     console.log(start_date);
     var lines = [];
 
-    if (bus_stop_name_Dist[search_value]){
+    if (bus_stop_name_Dict[search_value]){
         bus_stops.eachLayer(function(marker) {
             if (marker.toGeoJSON().properties.stop_name == search_value) {
                 marker.openPopup();
@@ -179,7 +179,7 @@ function clickButton() {
             } 
         })
 
-    } else if (bus_line_id_Dist[search_value]){
+    } else if (bus_line_id_Dict[search_value]){
         clickBusLine(search_value);
     }
 
