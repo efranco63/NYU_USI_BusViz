@@ -9,7 +9,7 @@
     <!--<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBKMxUK5yzz0XnMa1FLB2GDvbrdnaEY5vQ"></script>-->
     <script type="text/javascript" src="{{ url_for('static', filename='pace/pace.min.js') }}"> </script>
     <script type="text/javascript" src="{{ url_for('static', filename='js/busdata.js') }}"> </script>
-    <script type="text/javascript" src="{{ url_for('static', filename='js/bus_route_speed.js') }}"> </script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/bus_route_speed_round.js') }}"> </script>
     <script type="text/javascript" src="{{ url_for('static', filename='js/all_bus_stop.js') }}"> </script>
     <script type="text/javascript" src="{{ url_for('static', filename='js/config.js') }}"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
@@ -145,7 +145,7 @@
                 <div class="form-heading">
                   <label for="busStop" style="font-weight:bold;">BUS STOP</label>
                   <a data-toggle="collapse" data-target="#collapseBusStop" href="#collapseBusStop" style="float:right;" onClick="busStopToggleClick()">
-                    <input type="checkbox" checked data-toggle="toggle" data-size="mini">
+                    <input type="checkbox" data-toggle="toggle" data-size="mini">
                   </a>
                   </div>
                   <!--
@@ -306,7 +306,6 @@
     <script src="{{ url_for('static', filename='bootstrap/js/bootstrap.min.js') }}"></script>
     <script src="{{ url_for('static', filename='bootstrap/js/bootstrap-datepicker.js') }}" charset="UTF-8"></script>
     <script src="{{ url_for('static', filename='jasny/js/jasny-bootstrap.js') }}" charset="UTF-8"></script>
-    
     <script type="text/javascript" src="{{ url_for('static', filename='js/visualization/busline_viz.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='js/app.js') }}"> </script>
 

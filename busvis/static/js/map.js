@@ -1,3 +1,5 @@
+
+
 // =====================================================
 //Filename : map.js
 //Author : Kania Azrina ka1531@nyu.edu
@@ -40,7 +42,7 @@ var cluster_group_school = new L.MarkerClusterGroup();
 var cluster_group_block = new L.MarkerClusterGroup();
 
 //FLAGS
-var bus_stop_flag = true;
+var bus_stop_flag = false;
 var bus_line_flag = true;
 var cluster_group_default_flag = true;
 var cluster_group_zipcode_flag = false;
@@ -48,7 +50,6 @@ var cluster_group_borough_flag = false;
 var cluster_group_tract_flag = false;
 var cluster_group_school_flag = false;
 var cluster_group_block_flag = false;
-
 
 
 // ====== FUNCTIONS ====== //
@@ -83,7 +84,6 @@ function busClusterToggleClick() {
         cluster_group_default_flag = true; 
     } else if ( cluster_group_default_flag == true) {
         map.removeLayer(cluster_group_default);
-        map.addLayer(bus_stops);
         cluster_group_default_flag = false; 
     }
 }
@@ -94,13 +94,13 @@ function busStopToggleClick() {
         map.addLayer(bus_stops);
         bus_stop_flag = true; 
     } else if ( bus_stop_flag == true) {
-        map.removeLayer(cluster_group_default);
         map.removeLayer(bus_stops);
         bus_stop_flag = false; 
     }
 }
 
 function busLineToggleClick() {
+    Pace.start();
     // access properties using this keyword
     if ( bus_line_flag == false ) {
         map.addLayer(bus_line);
@@ -109,6 +109,7 @@ function busLineToggleClick() {
         map.removeLayer(bus_line);
         bus_line_flag = false; 
     }
+    Pace.stop();
 }
 
 // SEARCH FUNCTION
@@ -370,21 +371,17 @@ var map = L.mapbox.map('map-canvas', '', { zoomControl: false })
 new L.Control.Zoom({ position: 'topright' }).addTo(map);
 console.log('map init FINISH');
 
-
-
 // ================Top 5 and mean function==============
 // Init top values including mean, tophi, toplo
 // Contact : drp354@nyu.edu
 // ====================================================
+
 // ====== TOP 5 INITIALIZATION ====== //
 console.log('top5 init');
 initTopValues();
 console.log('top5 finished');
 
-
-
 // ====== BUS STOPS INITIALIZATION ====== //
-
 
 console.log('BusStop init');
 
@@ -573,11 +570,9 @@ for (var key in search_value_Dict) {
     search_value_list.push(key);
 }
 
+bus_line.setStyle(myStyle);
 
 console.log('Busline init finish');
-
-
-bus_line.setStyle(myStyle);
 
 var color_domain = [];
 var color_domain_label = [];
@@ -598,23 +593,21 @@ var colorScale = d3.scale.quantile().domain(all_speed).range(colorbrewer.RdYlGn[
 
 console.log('Speed color init');
 bus_line.setStyle(function(feature) {
-
-    
     var speed_color = (feature.properties.speed)-min_speed;
     var line_color = colorScale(speed_color);
 
-            if (line_color=="#000000"){
-                return { opacity:0} 
-            } else{
-                return { color: line_color}
-            }            
-        });
+    if (line_color=="#000000"){ 
+        return { opacity:0} } 
+    else {
+        return { color: line_color}
+    }            
+});
+
 console.log('speed color finish');
 
 console.log('busline add to map start');
 bus_line.addTo(map);
 console.log('busline add to map finish');
-
 
 var legend = d3.select('#lineSpeedLegendBox')
   .append('ul')
@@ -627,8 +620,8 @@ keys.enter().append('li')
     .attr('class', 'key')
     .style('border-top-color', String)
     .text(function(d) {
-        var r = colorScale.invertExtent(d);
-        return r[0].toFixed(2);
+         var r = colorScale.invertExtent(d);
+        return r[1].toFixed(2);
     });
 
 console.log('ALL FINISHED');
