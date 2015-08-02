@@ -9,13 +9,19 @@
     <!--<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBKMxUK5yzz0XnMa1FLB2GDvbrdnaEY5vQ"></script>-->
     <script type="text/javascript" src="{{ url_for('static', filename='pace/pace.min.js') }}"> </script>
     <script type="text/javascript" src="{{ url_for('static', filename='js/busdata.js') }}"> </script>
-    <script type="text/javascript" src="{{ url_for('static', filename='js/bus_route_speed_round.js') }}"> </script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/bus_route_speed.js') }}"> </script>
     <script type="text/javascript" src="{{ url_for('static', filename='js/all_bus_stop.js') }}"> </script>
     <script type="text/javascript" src="{{ url_for('static', filename='js/config.js') }}"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='subwaymap/subwaymap.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='js/d3/d3.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='colorbrewer/colorbrewer.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/d3.geo.tile.min.js') }}"></script>
+
+
+
+
+
     <link rel="stylesheet" href="{{ url_for('static', filename='css/mapbox.css') }}"> 
     <link rel="stylesheet" href="{{ url_for('static', filename='css/markercluster.css') }}"> 
     <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap/css/bootstrapcyborg.min.css') }}">
@@ -297,7 +303,15 @@
 
       </div>
     </nav>
+    
+    <script type="text/javascript" src="{{ url_for('static', filename='js/leaflet.js') }}"> </script>
     <script type="text/javascript" src="{{ url_for('static', filename='js/mapbox.js') }}"> </script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/leaflet.utfgrid.js') }}"> </script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/busvis.js') }}"> </script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/spatialmap.js') }}"> </script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/slippy.js') }}"> </script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/slippy_vector_d3.js') }}"> </script>
+
     <script type="text/javascript" src="{{ url_for('static', filename='js/markercluster.js') }}"> </script>
     <script type="text/javascript" src="{{ url_for('static', filename='js/map.js') }}"> </script>
     <script type="text/javascript" src="{{ url_for('static', filename='js/dashboard.js') }}"> </script>

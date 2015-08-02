@@ -361,6 +361,7 @@ function drawBusLine(route_id){
 document.getElementById('searchBusButton').onclick = clickButton;
 console.log('map init START');
 
+/*OLD MAP
 L.mapbox.accessToken = 'pk.eyJ1Ijoia2VubnlhenJpbmEiLCJhIjoidUY3OFkxVSJ9.5wxiS6D6ByjU5fRegUmyBQ'; //kennyazrina's API access token for BusVis
 
 //load busroute
@@ -369,6 +370,29 @@ var map = L.mapbox.map('map-canvas', '', { zoomControl: false })
     .addLayer(L.mapbox.tileLayer('kennyazrina.lpg413d8'));
 
 new L.Control.Zoom({ position: 'topright' }).addTo(map);
+
+*/
+
+
+var map = busvis.initSpatialMap("map-canvas", {
+    center: [40.7127, -74.0059],
+    zoom: 14,
+    maxZoom: 18,
+    bounds: L.latLngBounds(L.latLng(40.502860218134586,-73.7014082058679),
+                           L.latLng(40.91238545795432,-74.2523635421483)),
+});
+var raster = busvis.addSlippyLayer(map,
+                                   {
+                                       url     : "https://serv.cusp.nyu.edu/files/hvo/BusVis/cache/speed/{z}/{x}/{y}.png",
+                                       gridUrl : "https://serv.cusp.nyu.edu/files/hvo/BusVis/cache/speed/{z}/{x}/{y}.json",
+                                       minZoom : 8,
+                                       maxZoom : 14,
+                                   });
+var vector = busvis.addSlippyVectorLayer(map,
+                                         {
+                                             url: "https://serv.cusp.nyu.edu/files/hvo/BusVis/cache/speed_vector/{z}/{x}/{y}.geojson",
+                                             minZoom: 15,
+                                         });
 console.log('map init FINISH');
 
 // ================Top 5 and mean function==============
@@ -438,7 +462,7 @@ bus_stops.eachLayer(function(layer) {
     cluster_group_default.addLayer(layer);
 });
 
-    map.addLayer(cluster_group_default);
+map.addLayer(cluster_group_default);
 
 bus_stops.on('mouseover', function(e) {
     e.layer.openPopup();
@@ -606,7 +630,7 @@ bus_line.setStyle(function(feature) {
 console.log('speed color finish');
 
 console.log('busline add to map start');
-bus_line.addTo(map);
+//bus_line.addTo(map);
 console.log('busline add to map finish');
 
 var legend = d3.select('#lineSpeedLegendBox')
